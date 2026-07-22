@@ -4,19 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Human Exposure to Rising Temperatures — H Heuristics</title>
-<meta name="description" content="Interactive data visualization tracking global temperature rise, CO₂ accumulation, human exposure to extreme heat, and economic damage across the 21st century.">
-<meta name="keywords" content="climate change, global warming, temperature anomaly, CO2, extreme heat, population exposure, economic damage, data visualization, climate dashboard">
-<meta property="og:title" content="Human Exposure to Rising Temperatures">
-<meta property="og:description" content="Interactive visualization tracking the interconnected trajectories of global warming and human exposure across the 21st century.">
+<meta name="description" content="A multifaceted interactive data visualization tracking temperature rise, CO₂ accumulation, human exposure to extreme heat, and economic damage across the 21st century.">
+<meta name="keywords" content="climate change, global warming, temperature anomaly, CO2, extreme heat, population exposure, economic damage, data visualization, climate dashboard, multifaceted climate analysis">
+<meta property="og:title" content="Human Exposure to Rising Temperatures — A Multifaceted View">
+<meta property="og:description" content="Four interactive dimensions of the climate crisis: temperature, carbon, human exposure, and economic damage — each explored independently across 2000–2100.">
 <meta property="og:type" content="website">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
-/* ═══════════════════ LIGHT WARM THEME ═══════════════════ */
 :root {
   --bg: #FFF8F0;
   --bg-warm: #FFF3E8;
   --bg-card: #FFFFFF;
-  --bg-elevated: #FFFBF7;
   --border: #E8D5C0;
   --border-light: #F0E4D4;
   --text-primary: #2D1810;
@@ -24,442 +22,529 @@
   --text-muted: #9B8570;
   --accent: #E8612A;
   --accent-deep: #C44E1F;
-  --accent-light: #FDE8DF;
-  --orange: #E8612A;
-  --orange-light: #F4955A;
-  --terra: #D4845A;
   --amber: #E8983E;
   --gold: #C4852E;
   --brick: #B5432C;
-  --sand: #DFC5A5;
   --clay: #C47E5A;
   --olive: #8B9A5B;
   --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   --shadow-sm: 0 1px 3px rgba(45,24,16,0.06);
-  --shadow-md: 0 4px 16px rgba(45,24,16,0.08);
-  --shadow-lg: 0 8px 32px rgba(45,24,16,0.10);
+  --shadow-md: 0 4px 20px rgba(45,24,16,0.08);
   --radius: 14px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
-
 body {
-  background: var(--bg);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  line-height: 1.6;
+  background: var(--bg); color: var(--text-primary);
+  font-family: var(--font-sans); line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ═══════════════ NAVIGATION ═══════════════ */
+/* Navigation */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-light);
-  padding: 0 24px;
+  background: rgba(255,255,255,0.93);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-light); padding: 0 24px;
 }
 .nav-inner {
-  max-width: 1400px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; height: 56px;
 }
-.nav-logo {
-  font-weight: 700; font-size: 16px; color: var(--accent);
-  text-decoration: none; letter-spacing: -0.01em;
-}
+.nav-logo { font-weight: 700; font-size: 16px; color: var(--accent); text-decoration: none; }
 .nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a {
-  color: var(--text-secondary); text-decoration: none;
-  font-size: 14px; font-weight: 500; transition: color 0.2s;
-}
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: var(--accent); }
 
-/* ═══════════════ HERO ═══════════════ */
+/* Hero */
 .hero {
-  padding: 80px 24px 48px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  padding: 80px 24px 60px; text-align: center; position: relative; overflow: hidden;
 }
 .hero::before {
-  content: '';
-  position: absolute; top: -50%; left: -25%;
-  width: 150%; height: 150%;
+  content:''; position:absolute; top:-50%; left:-25%; width:150%; height:150%;
   background: radial-gradient(ellipse at 50% 50%, rgba(232,97,42,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
+.hero-eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+}
 .hero h1 {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-bottom: 16px;
-  position: relative;
+  font-size: clamp(34px, 5vw, 54px); font-weight: 800;
+  letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 20px; position: relative;
 }
 .hero h1 .gradient-text {
   background: linear-gradient(135deg, #E8612A, #C44E1F, #B5432C);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .hero .subtitle {
-  font-size: 18px; color: var(--text-secondary);
-  max-width: 640px; margin: 0 auto 8px;
-  position: relative;
+  font-size: 17px; color: var(--text-secondary);
+  max-width: 660px; margin: 0 auto 10px; line-height: 1.65;
 }
-.hero .dateline {
-  font-size: 13px; color: var(--text-muted);
-  position: relative;
-}
+.hero .dateline { font-size: 12px; color: var(--text-muted); }
 
-/* ═══════════════ SECTION COMMONS ═══════════════ */
-.section {
-  max-width: 1400px; margin: 0 auto;
-  padding: 20px 24px;
+/* Dimension icon links in nav */
+.dim-nav {
+  display: flex; gap: 18px; list-style: none; flex-wrap: wrap; justify-content: center;
+  padding: 0 24px 32px; max-width: 1000px; margin: 0 auto;
+}
+.dim-nav a {
+  display: flex; align-items: center; gap: 7px;
+  color: var(--text-secondary); text-decoration: none;
+  font-size: 13px; font-weight: 500; padding: 7px 14px;
+  border-radius: 20px; border: 1px solid var(--border-light);
+  background: var(--bg-card); transition: all 0.2s;
+}
+.dim-nav a:hover { border-color: var(--accent); color: var(--accent); }
+.dim-nav a svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* Section */
+.section-wide {
+  max-width: 1100px; margin: 0 auto; padding: 12px 24px 40px;
 }
 .section-header {
-  text-align: center; padding: 32px 0 8px;
+  text-align: center; padding: 48px 0 8px;
 }
 .section-header h2 {
-  font-size: 28px; font-weight: 700;
-  letter-spacing: -0.01em; margin-bottom: 8px;
+  font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px;
 }
-.section-header p {
-  color: var(--text-secondary); font-size: 15px;
-  max-width: 560px; margin: 0 auto;
+.section-header p { color: var(--text-secondary); font-size: 15px; max-width: 520px; margin: 0 auto; }
+
+/* Chart section card */
+.chart-section {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius); padding: 28px 32px 20px;
+  box-shadow: var(--shadow-sm); margin-bottom: 24px;
+  scroll-margin-top: 72px;
+}
+.chart-section-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+}
+.chart-section-header .icon-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chart-section-header .icon-wrap svg { width: 24px; height: 24px; }
+.chart-section-header .chart-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.chart-section-header .chart-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.icon-temp { background: #FDE8DF; }
+.icon-temp svg { color: #E8612A; }
+.icon-co2 { background: #FFF3E0; }
+.icon-co2 svg { color: #E8983E; }
+.icon-pop { background: #FDEAEA; }
+.icon-pop svg { color: #B5432C; }
+.icon-econ { background: #FDF0E8; }
+.icon-econ svg { color: #C47E5A; }
+
+/* Independent mini-timeline per chart */
+.mini-timeline {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--bg-warm); border-radius: 10px;
+  padding: 10px 16px; margin-bottom: 16px;
+}
+.mini-year {
+  font-family: var(--font-mono); font-size: 28px; font-weight: 800;
+  color: var(--accent); min-width: 64px; text-align: center;
+  line-height: 1;
+}
+.mini-timeline input[type=range] {
+  flex: 1; accent-color: var(--accent); height: 5px; border-radius: 3px; cursor: pointer;
+}
+.mini-timeline .mini-play {
+  background: var(--accent); color: white; border: none;
+  border-radius: 8px; padding: 7px 18px; cursor: pointer;
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.mini-timeline .mini-play:hover { background: var(--accent-deep); }
+.mini-timeline .mini-play:active { transform: scale(0.97); }
+.mini-timeline .mini-play.playing { background: var(--brick); }
+
+/* Chart container */
+.chart-container { width: 100%; overflow: hidden; }
+.chart-container svg { display: block; width: 100%; height: auto; }
+
+/* Chart context blurb */
+.chart-context {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px; color: var(--text-secondary); line-height: 1.65;
+}
+.chart-context strong { color: var(--text-primary); }
+
+/* Master timeline */
+.master-timeline {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius); padding: 24px 32px;
+  box-shadow: var(--shadow-sm); margin-bottom: 24px;
+}
+.master-year {
+  font-size: 56px; font-weight: 800; font-family: var(--font-mono);
+  letter-spacing: -0.03em; line-height: 1; text-align: center;
+  background: linear-gradient(135deg, var(--accent), var(--brick));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 12px;
+}
+.master-timeline input[type=range] {
+  width: 100%; margin-top: 8px; accent-color: var(--accent);
+  height: 6px; border-radius: 3px; cursor: pointer;
+}
+.master-labels {
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--text-muted); margin-bottom: 6px;
+}
+#masterPlay {
+  background: var(--accent); color: white; border: none;
+  border-radius: 8px; padding: 8px 24px; cursor: pointer;
+  font-size: 14px; font-weight: 600; transition: background 0.2s;
+}
+#masterPlay:hover { background: var(--accent-deep); }
+.master-ticks {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--text-muted); margin-top: 4px;
 }
 
-/* ═══════════════ KPI CARDS ═══════════════ */
+/* KPI row */
 .kpi-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px; margin-bottom: 20px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin-bottom: 20px;
 }
 .kpi-card {
   background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 24px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.3s, transform 0.3s;
+  border-radius: var(--radius); padding: 20px; text-align: center;
+  box-shadow: var(--shadow-sm); transition: box-shadow 0.3s, transform 0.3s;
 }
-.kpi-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-.kpi-value {
-  font-size: 38px; font-weight: 700;
-  font-family: var(--font-mono);
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-bottom: 8px;
-}
-.kpi-label {
-  font-size: 13px; color: var(--text-secondary);
-  line-height: 1.4;
-}
-.kpi-sub {
-  font-size: 11px; color: var(--text-muted);
-  margin-top: 2px;
-}
-.kpi-temp .kpi-value { color: var(--accent); }
-.kpi-co2 .kpi-value { color: var(--amber); }
-.kpi-pop .kpi-value { color: var(--brick); }
-.kpi-econ .kpi-value { color: var(--clay); }
+.kpi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.kpi-value { font-size: 34px; font-weight: 700; font-family: var(--font-mono); letter-spacing: -0.02em; line-height: 1; margin-bottom: 6px; }
+.kpi-label { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+.kpi-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
 
-/* ═══════════════ TIMELINE ═══════════════ */
-.timeline-wrap {
+/* Context grid */
+.context-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px;
+}
+.context-card {
   background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 28px 32px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
+  border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm);
 }
-.year-display {
-  font-size: 68px; font-weight: 800;
-  font-family: var(--font-mono);
-  letter-spacing: -0.03em; line-height: 1;
-  text-align: center;
-  background: linear-gradient(135deg, var(--accent), var(--brick));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 12px;
-}
-.timeline-wrap input[type=range] {
-  width: 100%; margin-top: 8px;
-  accent-color: var(--accent);
-  height: 6px; border-radius: 3px;
-  cursor: pointer;
-}
-.timeline-labels {
-  display: flex; justify-content: space-between;
-  font-size: 12px; color: var(--text-muted);
-  margin-bottom: 6px;
-}
-.timeline-ticks {
-  display: flex; justify-content: space-between;
-  font-size: 10px; color: var(--text-muted);
-  margin-top: 4px;
-}
-#playBtn {
-  background: var(--accent); color: white;
-  border: none; border-radius: 8px;
-  padding: 8px 24px; cursor: pointer;
-  font-size: 14px; font-weight: 600;
-  transition: background 0.2s, transform 0.15s;
-}
-#playBtn:hover { background: var(--accent-deep); transform: scale(1.03); }
-#playBtn:active { transform: scale(0.97); }
+.context-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+.context-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+.context-card .highlight { color: var(--accent); font-weight: 600; }
 
-/* ═══════════════ CHARTS GRID ═══════════════ */
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.chart-card {
+/* Data table */
+.data-table-wrap {
   background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 24px;
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm);
 }
-.chart-card h3 {
-  font-size: 14px; font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 16px;
-}
+.data-table-wrap h4 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.data-table-wrap table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table-wrap th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+.data-table-wrap td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); }
+.data-table-wrap td.mono { font-family: var(--font-mono); text-align: right; }
+.data-table-wrap tr:hover td { background: var(--bg-warm); }
 
-/* ═══════════════ CHART SVG STYLES ═══════════════ */
+/* SVG chart styles */
 .axis line, .axis .domain { stroke: var(--border); }
 .axis text { fill: var(--text-secondary); font-size: 11px; font-family: var(--font-sans); }
 .grid line { stroke: var(--border-light); stroke-opacity: 0.6; }
 .grid .domain { stroke: none; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 .indicator-dot { animation: pulse 2.5s ease-in-out infinite; }
-@keyframes pulse {
-  0%, 100% { opacity: 1; r: 6; }
-  50% { opacity: 0.6; r: 8; }
-}
-svg text { font-family: var(--font-sans); }
 
-/* ═══════════════ CONTEXT SECTIONS ═══════════════ */
-.context-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 24px;
-}
-.context-card {
-  background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 28px;
-  box-shadow: var(--shadow-sm);
-}
-.context-card h4 {
-  font-size: 16px; font-weight: 700;
-  margin-bottom: 12px; color: var(--text-primary);
-}
-.context-card p {
-  font-size: 14px; color: var(--text-secondary);
-  line-height: 1.7; margin-bottom: 10px;
-}
-.context-card .highlight {
-  color: var(--accent); font-weight: 600;
-}
-
-/* ═══════════════ DATA TABLE ═══════════════ */
-.data-table-wrap {
-  background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-.data-table-wrap h4 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
-.data-table-wrap table {
-  width: 100%; border-collapse: collapse;
-  font-size: 14px;
-}
-.data-table-wrap th {
-  text-align: left; padding: 10px 12px;
-  border-bottom: 2px solid var(--border);
-  color: var(--text-secondary); font-weight: 600; font-size: 12px;
-  text-transform: uppercase; letter-spacing: 0.05em;
-}
-.data-table-wrap td {
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border-light);
-  color: var(--text-primary);
-}
-.data-table-wrap td.mono { font-family: var(--font-mono); text-align: right; }
-.data-table-wrap tr:hover td { background: var(--bg-warm); }
-
-/* ═══════════════ FOOTER ═══════════════ */
+/* Footer */
 .footer {
-  text-align: center; padding: 48px 24px;
-  color: var(--text-muted); font-size: 13px;
-  line-height: 1.8; max-width: 640px; margin: 0 auto;
+  text-align: center; padding: 48px 24px; color: var(--text-muted);
+  font-size: 13px; line-height: 1.8; max-width: 640px; margin: 0 auto;
 }
 .footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
 .footer a:hover { text-decoration: underline; }
 .footer .brand { font-weight: 700; color: var(--text-primary); font-size: 16px; }
 
-/* ═══════════════ RESPONSIVE ═══════════════ */
+/* Responsive */
 @media (max-width: 900px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
-  .charts-grid { grid-template-columns: 1fr; }
   .context-grid { grid-template-columns: 1fr; }
-  .year-display { font-size: 44px; }
-  .nav-links { display: none; }
   .hero { padding: 48px 20px 32px; }
+  .master-year { font-size: 40px; }
+  .mini-timeline { flex-wrap: wrap; }
+  .nav-links { display: none; }
+  .dim-nav { gap: 10px; }
+  .dim-nav a { font-size: 11px; padding: 5px 10px; }
 }
 @media (max-width: 500px) {
   .kpi-row { grid-template-columns: 1fr; }
-  .year-display { font-size: 36px; }
-  .kpi-value { font-size: 30px; }
+  .master-year { font-size: 34px; }
+  .kpi-value { font-size: 28px; }
+  .chart-section { padding: 20px 16px 16px; }
+  .mini-year { font-size: 22px; min-width: 48px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<!-- ═════════ NAVIGATION ═════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">H Heuristics</a>
+    <a href="#top" class="nav-logo">H Heuristics</a>
     <ul class="nav-links">
-      <li><a href="#dashboard">Dashboard</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#context">Context</a></li>
-      <li><a href="#data">Data</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#temperature">Temperature</a></li>
+      <li><a href="#carbon">Carbon</a></li>
+      <li><a href="#exposure">Exposure</a></li>
+      <li><a href="#economic">Economic</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ═══════════════ HERO ═══════════════ -->
+<!-- ═════════ HERO ═════════ -->
 <header class="hero" id="top">
+  <div class="hero-eyebrow">A Multifaceted Analysis</div>
   <h1>Human Exposure to<br><span class="gradient-text">Rising Temperatures</span></h1>
   <p class="subtitle">
-    An interactive exploration of how global warming reshapes the human condition across the 21st century — tracking temperature rise, carbon accumulation, population exposure to extreme heat, and mounting economic damage.
+    Four interconnected dimensions of the climate crisis — global temperature,
+    atmospheric carbon, human heat exposure, and economic damage —
+    each explored independently across the 21st century.
+    Drag any timeline or use the master control to animate all dimensions in synchrony.
   </p>
   <p class="dateline">Data: NASA GISTEMP · NOAA GML · IPCC AR6 · Lancet Countdown &nbsp;|&nbsp; H Heuristics © 2025</p>
 </header>
 
-<!-- ═══════════════ KPI CARDS ═══════════════ -->
-<div class="section" id="dashboard">
+<!-- Dimension nav chips -->
+<div class="dim-nav">
+  <a href="#temperature">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3"/><line x1="12" y1="11" x2="12" y2="22"/><line x1="8" y1="4" x2="12" y2="8"/><line x1="16" y1="4" x2="12" y2="8"/></svg>
+    Temperature
+  </a>
+  <a href="#carbon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><circle cx="12" cy="12" r="3"/><line x1="10" y1="10" x2="14" y2="14"/><line x1="10" y1="14" x2="13" y2="11"/></svg>
+    Carbon
+  </a>
+  <a href="#exposure">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="3"/><circle cx="12" cy="16" r="4"/><circle cx="22" cy="6" r="2"/></svg>
+    Exposure
+  </a>
+  <a href="#economic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="10" rx="1"/><rect x="10" y="7" width="4" height="15" rx="1"/><rect x="17" y="3" width="4" height="19" rx="1"/></svg>
+    Economic
+  </a>
+</div>
+
+<!-- ═════════ OVERVIEW: KPI CARDS + MASTER TIMELINE ═════════ -->
+<div class="section-wide" id="overview">
   <div class="kpi-row" id="kpiCards"></div>
 
-  <!-- ═══════════ TIMELINE ═══════════ -->
-  <div class="timeline-wrap">
-    <div class="year-display" id="yearDisplay">2024</div>
-    <div class="timeline-labels">
+  <div class="master-timeline">
+    <div class="master-year" id="masterYear">2024</div>
+    <div class="master-labels">
       <span>2000</span>
-      <span><button id="playBtn">▶ Play Animation</button></span>
+      <span><button id="masterPlay">▶ Animate All Dimensions</button></span>
       <span>2100</span>
     </div>
-    <input type="range" id="yearSlider" min="2000" max="2100" value="2024" step="1">
-    <div class="timeline-ticks" id="yearTicks"></div>
+    <input type="range" id="masterSlider" min="2000" max="2100" value="2024" step="1">
+    <div class="master-ticks" id="masterTicks"></div>
+    <p style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:8px;">
+      The master timeline synchronizes all four dimensions below. Each dimension also has its own independent control.
+    </p>
   </div>
+</div>
 
-  <!-- ═══════════ CHARTS ═══════════ -->
-  <div class="charts-grid">
-    <div class="chart-card">
-      <h3>🌡️ Global Temperature Anomaly</h3>
-      <div id="tempChart"></div>
+<!-- ═════════ DIMENSION 1: TEMPERATURE ═════════ -->
+<div class="section-wide" id="temperature">
+  <div class="chart-section">
+    <div class="chart-section-header">
+      <div class="icon-wrap icon-temp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="3"/>
+          <line x1="12" y1="11" x2="12" y2="22"/>
+          <line x1="7" y1="2" x2="17" y2="2"/>
+          <line x1="8" y1="19" x2="8" y2="22"/>
+          <line x1="16" y1="19" x2="16" y2="22"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chart-title">Global Temperature Anomaly</div>
+        <div class="chart-subtitle">NASA GISTEMP v4 observations with IPCC SSP projections to 2100</div>
+      </div>
     </div>
-    <div class="chart-card">
-      <h3>🫁 Atmospheric CO₂ Concentration</h3>
-      <div id="co2Chart"></div>
+
+    <div class="mini-timeline">
+      <div class="mini-year" id="tempYear">2024</div>
+      <input type="range" id="tempSlider" min="2000" max="2100" value="2024" step="1">
+      <button class="mini-play" id="tempPlay">▶ Play</button>
     </div>
-    <div class="chart-card">
-      <h3>👥 Population Exposed to Extreme Heat</h3>
-      <div id="popChart"></div>
-    </div>
-    <div class="chart-card">
-      <h3>💰 Cumulative Economic Damage</h3>
-      <div id="econChart"></div>
+
+    <div class="chart-container" id="tempChart"></div>
+
+    <div class="chart-context">
+      <strong>What this shows:</strong> Global mean surface temperature relative to the 1951–1980 baseline.
+      Solid line shows observed warming; dashed lines show two futures — <strong>SSP2-4.5</strong> (moderate emissions, ~2.7°C by 2100)
+      and <strong>SSP5-8.5</strong> (high emissions, ~4.4°C). The Paris Agreement thresholds of 1.5°C and 2.0°C are marked as reference lines.
+      The divergence after 2050 represents one of the most consequential choices in human history.
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ ABOUT SECTION ═══════════════ -->
-<div class="section" id="about">
-  <div class="section-header">
-    <h2>About This Visualization</h2>
-    <p>Understanding the four interconnected dimensions of the climate crisis</p>
-  </div>
-  <div class="context-grid">
-    <div class="context-card">
-      <h4>🌡️ Temperature Anomaly</h4>
-      <p>Global mean surface temperature relative to the 1951–1980 baseline. The solid line shows <span class="highlight">NASA GISTEMP v4 observations</span>. Dashed lines represent two IPCC scenarios: <span class="highlight">SSP2-4.5</span> (moderate emissions, ~2.7°C by 2100) and <span class="highlight">SSP5-8.5</span> (high emissions, ~4.4°C by 2100). The Paris Agreement thresholds of 1.5°C and 2.0°C are marked.</p>
+<!-- ═════════ DIMENSION 2: CARBON DIOXIDE ═════════ -->
+<div class="section-wide" id="carbon">
+  <div class="chart-section">
+    <div class="chart-section-header">
+      <div class="icon-wrap icon-co2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><circle cx="12" cy="12" r="3"/>
+          <line x1="10" y1="10" x2="14" y2="14"/><line x1="10" y1="14" x2="13" y2="11"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chart-title">Atmospheric CO₂ Concentration</div>
+        <div class="chart-subtitle">NOAA GML measurements with IPCC Shared Socioeconomic Pathway projections</div>
+      </div>
     </div>
-    <div class="context-card">
-      <h4>🫁 Carbon Dioxide</h4>
-      <p>Atmospheric CO₂ concentration in parts per million, from ice core reconstructions and direct <span class="highlight">Mauna Loa Observatory</span> measurements. The pre-industrial baseline was ~280 ppm. We crossed <span class="highlight">420 ppm in 2023</span> — a level not seen in at least 3 million years. The 350 ppm and 450 ppm lines mark key risk thresholds identified by climate science.</p>
+
+    <div class="mini-timeline">
+      <div class="mini-year" id="co2Year">2024</div>
+      <input type="range" id="co2Slider" min="2000" max="2100" value="2024" step="1">
+      <button class="mini-play" id="co2Play">▶ Play</button>
     </div>
-    <div class="context-card">
-      <h4>👥 Extreme Heat Exposure</h4>
-      <p>Number of people exposed to <span class="highlight">extreme heat conditions</span> — defined as wet-bulb temperatures exceeding 35°C for more than 15 days per year. At this threshold, the human body cannot cool itself through sweating, even in shade. The stacked areas show the regional breakdown: <span class="highlight">South Asia</span>, Sub-Saharan Africa, Southeast Asia, the Middle East, Latin America, and the rest of the world.</p>
-    </div>
-    <div class="context-card">
-      <h4>💰 Economic Damage</h4>
-      <p>Annual GDP loss from climate damages as a percentage of global economic output, based on <span class="highlight">quadratic damage functions</span> from Burke et al. and IPCC AR6 WG2. The bars show yearly impact; the gold line tracks <span class="highlight">cumulative damages in trillions of USD</span>. Even under moderate scenarios, climate change imposes a growing drag on the global economy that compounds over decades.</p>
+
+    <div class="chart-container" id="co2Chart"></div>
+
+    <div class="chart-context">
+      <strong>What this shows:</strong> Atmospheric CO₂ concentration in parts per million, from ice core reconstructions and direct Mauna Loa Observatory measurements.
+      Pre-industrial levels were ~280 ppm; we crossed 420 ppm in 2023 — a level not seen in at least 3 million years.
+      The 350 ppm and 450 ppm reference lines mark key risk thresholds identified by climate science.
+      Under SSP5-8.5, CO₂ could exceed <strong>1,100 ppm</strong> by 2100.
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ CONTEXT SECTION ═══════════════ -->
-<div class="section" id="context">
+<!-- ═════════ DIMENSION 3: POPULATION EXPOSURE ═════════ -->
+<div class="section-wide" id="exposure">
+  <div class="chart-section">
+    <div class="chart-section-header">
+      <div class="icon-wrap icon-pop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="3"/>
+          <circle cx="12" cy="16" r="4"/><circle cx="22" cy="6" r="2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chart-title">Population Exposed to Extreme Heat</div>
+        <div class="chart-subtitle">Millions of people facing wet-bulb temperatures exceeding 35°C for 15+ days per year</div>
+      </div>
+    </div>
+
+    <div class="mini-timeline">
+      <div class="mini-year" id="popYear">2024</div>
+      <input type="range" id="popSlider" min="2000" max="2100" value="2024" step="1">
+      <button class="mini-play" id="popPlay">▶ Play</button>
+    </div>
+
+    <div class="chart-container" id="popChart"></div>
+
+    <div class="chart-context">
+      <strong>What this shows:</strong> People exposed to extreme heat conditions where the human body cannot cool itself through sweating, even in shade with unlimited water.
+      Stacked areas show the regional breakdown: <strong>South Asia</strong> bears the heaviest burden, followed by Sub-Saharan Africa and Southeast Asia.
+      By 2050, an estimated 2.6–3.5 billion people may face these conditions — regions that contributed least to cumulative emissions will suffer most.
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ DIMENSION 4: ECONOMIC DAMAGE ═════════ -->
+<div class="section-wide" id="economic">
+  <div class="chart-section">
+    <div class="chart-section-header">
+      <div class="icon-wrap icon-econ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="14" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="14" rx="1"/>
+          <rect x="17" y="3" width="4" height="19" rx="1"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chart-title">Cumulative Economic Damage</div>
+        <div class="chart-subtitle">Annual GDP loss from climate damages with cumulative costs in trillions USD</div>
+      </div>
+    </div>
+
+    <div class="mini-timeline">
+      <div class="mini-year" id="econYear">2024</div>
+      <input type="range" id="econSlider" min="2000" max="2100" value="2024" step="1">
+      <button class="mini-play" id="econPlay">▶ Play</button>
+    </div>
+
+    <div class="chart-container" id="econChart"></div>
+
+    <div class="chart-context">
+      <strong>What this shows:</strong> Climate damages as a percentage of global GDP, based on quadratic damage functions calibrated to IPCC AR6 WG2 and Burke et al.
+      The bars show annual impact; the gold line tracks cumulative damages in trillions of USD.
+      Under current trajectories, climate change imposes a <strong>growing, compounding drag</strong> on the global economy —
+      potentially reaching 10–18% of GDP by 2100, dwarfing the investments needed for clean energy transition.
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ CONTEXT ═════════ -->
+<div class="section-wide" id="context">
   <div class="section-header">
     <h2>Why This Matters</h2>
-    <p>The middle of the 21st century will be defined by human exposure to heat</p>
+    <p>Four dimensions, one interconnected crisis</p>
   </div>
+
   <div class="context-grid">
     <div class="context-card">
-      <h4>📊 The Numbers</h4>
-      <p>By <span class="highlight">2050</span>, an estimated <span class="highlight">2.6–3.5 billion people</span> will live in zones experiencing lethal heat conditions for at least 15 days per year. The vast majority are in South Asia, Sub-Saharan Africa, and the Middle East — regions that contributed least to cumulative emissions.</p>
-      <p>The economic cost of inaction could reach <span class="highlight">10–18% of global GDP by 2100</span>, dwarfing the investments needed for clean energy transition and adaptation.</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div class="icon-wrap icon-temp" style="width:36px;height:36px;border-radius:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><circle cx="12" cy="8" r="3"/><line x1="12" y1="11" x2="12" y2="22"/></svg>
+        </div>
+        <h4 style="margin:0;">The Physics</h4>
+      </div>
+      <p>For every tonne of CO₂ emitted, the planet traps additional heat. Since 1880, global mean temperature has risen <span class="highlight">~1.3°C</span>. The rate of warming since 1970 is unprecedented in at least 2,000 years. The last time CO₂ exceeded 400 ppm (the Pliocene, ~3 million years ago), sea levels were 15–25 metres higher.</p>
     </div>
     <div class="context-card">
-      <h4>🔬 The Science</h4>
-      <p>Wet-bulb temperature (TW) combines heat and humidity to measure the human body's ability to cool itself. At <span class="highlight">TW ≥ 35°C</span>, even a healthy person resting in shade with unlimited water will suffer heat stroke within hours.</p>
-      <p>This threshold has already been breached briefly in parts of <span class="highlight">South Asia, the Persian Gulf, and Mexico</span> — decades earlier than climate models had projected.</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div class="icon-wrap icon-pop" style="width:36px;height:36px;border-radius:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="3"/><circle cx="12" cy="16" r="4"/></svg>
+        </div>
+        <h4 style="margin:0;">The Human Cost</h4>
+      </div>
+      <p>Wet-bulb temperature (TW) combines heat and humidity. At <span class="highlight">TW ≥ 35°C</span>, even a healthy person resting in shade with water will suffer heat stroke within hours. This threshold has already been breached in parts of South Asia, the Persian Gulf, and Mexico — decades earlier than models projected.</p>
     </div>
     <div class="context-card">
-      <h4>🛤️ The Pathways</h4>
-      <p>The divergence between <span class="highlight">SSP2-4.5 and SSP5-8.5</span> after 2050 represents one of the most consequential choices in human history. Under SSP2-4.5, emissions peak around mid-century and decline, limiting warming to ~2.7°C. Under SSP5-8.5, continued fossil fuel dependence drives warming toward <span class="highlight">4.4°C or more</span>.</p>
-      <p>Every fraction of a degree matters: the difference between 2.0°C and 3.0°C means hundreds of millions fewer people facing lethal heat.</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div class="icon-wrap icon-co2" style="width:36px;height:36px;border-radius:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><circle cx="12" cy="12" r="3"/><line x1="10" y1="10" x2="14" y2="14"/></svg>
+        </div>
+        <h4 style="margin:0;">The Pathways</h4>
+      </div>
+      <p>The divergence between SSP2-4.5 and SSP5-8.5 after 2050 is stark. Under the moderate scenario, emissions peak mid-century and warming limits to <span class="highlight">~2.7°C</span>. Under continued fossil dependence, warming reaches <span class="highlight">~4.4°C</span>. Every fraction of a degree means hundreds of millions fewer people facing lethal heat.</p>
     </div>
     <div class="context-card">
-      <h4>💡 What Can Be Done</h4>
-      <p>The solutions exist: <span class="highlight">rapid deployment of clean energy</span>, urban cooling infrastructure, early warning systems, heat-resistant crop varieties, and targeted adaptation finance. The challenge is one of <span class="highlight">diffusion</span> — how fast can proven technologies reach the populations that need them most?</p>
-      <p>This is the central question of <span class="highlight">H Heuristics'</span> research: understanding the patterns, barriers, and accelerators of technology diffusion in a warming world.</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div class="icon-wrap icon-econ" style="width:36px;height:36px;border-radius:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><rect x="17" y="6" width="4" height="16" rx="1"/></svg>
+        </div>
+        <h4 style="margin:0;">The Solutions</h4>
+      </div>
+      <p>The technologies exist: rapid clean energy deployment, urban cooling, early warning systems, heat-resistant crops, adaptation finance. The challenge is <span class="highlight">diffusion</span> — how fast proven solutions reach the populations that need them most. This is the central research question of H Heuristics.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ DATA TABLE ═══════════════ -->
-<div class="section" id="data">
-  <div class="section-header">
-    <h2>Data Explorer</h2>
-    <p>Snapshot of key metrics at the selected year</p>
-  </div>
+<!-- ═════════ DATA TABLE ═════════ -->
+<div class="section-wide" id="data">
   <div class="data-table-wrap">
-    <h4>📋 Key Indicators — <span id="dataTableYear">2024</span></h4>
+    <h4>Data Snapshot at Year <span id="dataTableYear">2024</span></h4>
     <table>
-      <thead>
-        <tr>
-          <th>Indicator</th>
-          <th>Value</th>
-          <th>Trend (2000–Present)</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Indicator</th><th>Value</th><th>Context</th></tr></thead>
       <tbody id="dataTableBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══════════════ FOOTER ═══════════════ -->
+<!-- ═════════ FOOTER ═════════ -->
 <footer class="footer">
   <p class="brand">H Heuristics</p>
   <p>Market Research · Economic Development Consulting · Data Intelligence<br>Nottingham, United Kingdom</p>
@@ -468,383 +553,241 @@ svg text { font-family: var(--font-sans); }
     <a href="https://data.giss.nasa.gov/gistemp/">NASA GISTEMP</a>,
     <a href="https://gml.noaa.gov/ccgg/">NOAA GML</a>,
     <a href="https://www.ipcc.ch/assessment-report/ar6/">IPCC AR6</a>,
-    and <a href="https://www.lancetcountdown.org/">Lancet Countdown</a>
+    <a href="https://www.lancetcountdown.org/">Lancet Countdown</a>
   </p>
   <p>© 2025 H Heuristics. All rights reserved.</p>
-  <p style="margin-top:12px;font-size:11px;color:var(--text-muted);">
+  <p style="margin-top:12px;font-size:11px;">
     Projections are based on IPCC Shared Socioeconomic Pathways. Actual outcomes depend on policy, technology, and human choices yet to be made.
   </p>
 </footer>
 
-<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<!-- ═════════ SCRIPTS ═════════ -->
 <script>
-// ═══════════════ EMBEDDED DATA ═══════════════
-
+// ═══ DATA ═══
 const tempObserved = [
-  {year:1900,anomaly:-0.08},{year:1910,anomaly:-0.43},{year:1920,anomaly:-0.25},
-  {year:1930,anomaly:-0.12},{year:1940,anomaly:0.07},{year:1950,anomaly:-0.16},
-  {year:1960,anomaly:0.00},{year:1970,anomaly:0.04},{year:1980,anomaly:0.29},
-  {year:1990,anomaly:0.47},{year:2000,anomaly:0.44},{year:2005,anomaly:0.70},
-  {year:2010,anomaly:0.74},{year:2011,anomaly:0.63},{year:2012,anomaly:0.66},
-  {year:2013,anomaly:0.68},{year:2014,anomaly:0.77},{year:2015,anomaly:0.90},
-  {year:2016,anomaly:1.03},{year:2017,anomaly:0.94},{year:2018,anomaly:0.86},
-  {year:2019,anomaly:0.99},{year:2020,anomaly:1.02},{year:2021,anomaly:0.87},
-  {year:2022,anomaly:0.92},{year:2023,anomaly:1.17},{year:2024,anomaly:1.28}
+  {year:1900,anomaly:-0.08},{year:1910,anomaly:-0.43},{year:1920,anomaly:-0.25},{year:1930,anomaly:-0.12},{year:1940,anomaly:0.07},{year:1950,anomaly:-0.16},{year:1960,anomaly:0.00},{year:1970,anomaly:0.04},{year:1980,anomaly:0.29},{year:1990,anomaly:0.47},{year:2000,anomaly:0.44},{year:2005,anomaly:0.70},{year:2010,anomaly:0.74},{year:2011,anomaly:0.63},{year:2012,anomaly:0.66},{year:2013,anomaly:0.68},{year:2014,anomaly:0.77},{year:2015,anomaly:0.90},{year:2016,anomaly:1.03},{year:2017,anomaly:0.94},{year:2018,anomaly:0.86},{year:2019,anomaly:0.99},{year:2020,anomaly:1.02},{year:2021,anomaly:0.87},{year:2022,anomaly:0.92},{year:2023,anomaly:1.17},{year:2024,anomaly:1.28}
 ];
+const tempSSP245=[],tempSSP585=[];
+for(let y=2025;y<=2100;y++){const t=(y-2025)/75;tempSSP245.push({year:y,anomaly:1.30+t*1.40+0.05*Math.sin(t*8)});tempSSP585.push({year:y,anomaly:1.30+t*t*3.10+0.08*Math.sin(t*6)});}
 
-const tempSSP245 = [], tempSSP585 = [];
-for (let y=2025;y<=2100;y++) {
-  const t=(y-2025)/75;
-  tempSSP245.push({year:y,anomaly:1.30+t*1.40+0.05*Math.sin(t*8)});
-  tempSSP585.push({year:y,anomaly:1.30+t*t*3.10+0.08*Math.sin(t*6)});
-}
+const co2Observed=[{year:1900,co2:295.6},{year:1920,co2:303.9},{year:1940,co2:311.3},{year:1950,co2:311.3},{year:1960,co2:316.9},{year:1970,co2:325.7},{year:1980,co2:338.7},{year:1990,co2:354.3},{year:2000,co2:369.5},{year:2010,co2:389.9},{year:2015,co2:400.8},{year:2020,co2:414.2},{year:2021,co2:416.5},{year:2022,co2:418.6},{year:2023,co2:421.1},{year:2024,co2:423.5}];
+const co2SSP245=[],co2SSP585=[];
+for(let y=2025;y<=2100;y++){const t=(y-2025)/75;co2SSP245.push({year:y,co2:425+125*(1-Math.exp(-3*t))});co2SSP585.push({year:y,co2:425+675*(1-Math.exp(-2.2*t))});}
 
-const co2Observed = [
-  {year:1900,co2:295.6},{year:1920,co2:303.9},{year:1940,co2:311.3},
-  {year:1950,co2:311.3},{year:1960,co2:316.9},{year:1970,co2:325.7},
-  {year:1980,co2:338.7},{year:1990,co2:354.3},{year:2000,co2:369.5},
-  {year:2010,co2:389.9},{year:2015,co2:400.8},{year:2020,co2:414.2},
-  {year:2021,co2:416.5},{year:2022,co2:418.6},{year:2023,co2:421.1},{year:2024,co2:423.5}
-];
+const popRegions=["South Asia","Sub-Saharan Africa","Southeast Asia","Middle East & N. Africa","Latin America","Rest of World"];
+const popData=[{year:2000,values:[80,30,25,15,10,20]},{year:2010,values:[150,55,45,28,18,35]},{year:2020,values:[280,100,80,50,32,55]},{year:2030,values:[500,200,150,100,60,90]},{year:2040,values:[800,380,260,180,100,140]},{year:2050,values:[1200,620,400,290,160,210]},{year:2060,values:[1500,850,520,390,220,280]},{year:2070,values:[1750,1080,620,480,280,340]},{year:2080,values:[1950,1300,700,560,330,400]},{year:2090,values:[2100,1500,750,620,370,450]},{year:2100,values:[2200,1700,800,680,400,500]}];
+const popInterpolated=[];
+for(let y=2000;y<=2100;y++){const lo=popData.filter(d=>d.year<=y).slice(-1)[0],hi=popData.filter(d=>d.year>=y)[0];if(lo.year===hi.year){popInterpolated.push({year:y,values:lo.values});}else{const t=(y-lo.year)/(hi.year-lo.year);popInterpolated.push({year:y,values:lo.values.map((v,i)=>v+(hi.values[i]-v)*t)});}}
 
-const co2SSP245 = [], co2SSP585 = [];
-for (let y=2025;y<=2100;y++) {
-  const t=(y-2025)/75;
-  co2SSP245.push({year:y,co2:425+125*(1-Math.exp(-3*t))});
-  co2SSP585.push({year:y,co2:425+675*(1-Math.exp(-2.2*t))});
-}
+const econData=[];
+for(let y=2000;y<=2100;y++){const t=(y-2000)/100,warming=0.5+t*4.0,dmg=Math.min(0.3*warming*warming,25),cum=y>=2020?(0.05+0.02*(y-2020)+0.0008*Math.pow(y-2020,2))*(y-2019):0;econData.push({year:y,damagePct:dmg,cumulativeTrillions:cum});}
 
-const popRegions = ["South Asia","Sub-Saharan Africa","Southeast Asia","Middle East & N. Africa","Latin America","Rest of World"];
-const popData = [
-  {year:2000,values:[80,30,25,15,10,20]},{year:2010,values:[150,55,45,28,18,35]},
-  {year:2020,values:[280,100,80,50,32,55]},{year:2030,values:[500,200,150,100,60,90]},
-  {year:2040,values:[800,380,260,180,100,140]},{year:2050,values:[1200,620,400,290,160,210]},
-  {year:2060,values:[1500,850,520,390,220,280]},{year:2070,values:[1750,1080,620,480,280,340]},
-  {year:2080,values:[1950,1300,700,560,330,400]},{year:2090,values:[2100,1500,750,620,370,450]},
-  {year:2100,values:[2200,1700,800,680,400,500]}
-];
+const C={temp:"#E8612A",tempLight:"#F4955A",co2:"#E8983E",co2Light:"#F0B860",magenta:"#C96550",magentaLight:"#E09888",brick:"#B5432C",gold:"#C4852E",olive:"#8B9A5B",clay:"#C47E5A",pop:["#E8612A","#C96550","#E8983E","#C4852E","#8B9A5B","#DFC5A5"],gridLine:"#E8D5C0",textSecondary:"#6B5040",textMuted:"#9B8570",indicatorStroke:"#2D1810"};
 
-const popInterpolated = [];
-for (let y=2000;y<=2100;y++) {
-  const lo=popData.filter(d=>d.year<=y).slice(-1)[0];
-  const hi=popData.filter(d=>d.year>=y)[0];
-  if (lo.year===hi.year) { popInterpolated.push({year:y,values:lo.values}); }
-  else {
-    const t=(y-lo.year)/(hi.year-lo.year);
-    popInterpolated.push({year:y,values:lo.values.map((v,i)=>v+(hi.values[i]-v)*t)});
-  }
-}
+// ═══ CHART RENDERERS (wider charts, fixed axis spacing) ═══
+const M={top:20,right:120,bottom:40,left:60};
+function mkSvg(c,w,h){c.innerHTML="";const svg=d3.select(c).append("svg").attr("viewBox",`0 0 ${w} ${h}`).attr("width",w).attr("height",h).style("overflow","visible");return{svg,g:svg.append("g").attr("transform",`translate(${M.left},${M.top})`),iw:w-M.left-M.right,ih:h-M.top-M.bottom};}
 
-const econData = [];
-for (let y=2000;y<=2100;y++) {
-  const t=(y-2000)/100, warming=0.5+t*4.0;
-  const dmg=Math.min(0.3*warming*warming,25);
-  const cum=y>=2020?(0.05+0.02*(y-2020)+0.0008*Math.pow(y-2020,2))*(y-2019):0;
-  econData.push({year:y,damagePct:dmg,cumulativeTrillions:cum});
-}
-
-// ═══════════════ PASTEL WARM CHART PALETTE ═══════════════
-const C = {
-  temp: "#E8612A",
-  tempLight: "#F4955A",
-  co2: "#E8983E",
-  co2Light: "#F0B860",
-  magenta: "#C96550",
-  magentaLight: "#E09888",
-  brick: "#B5432C",
-  gold: "#C4852E",
-  olive: "#8B9A5B",
-  sand: "#DFC5A5",
-  clay: "#C47E5A",
-  pop: ["#E8612A","#C96550","#E8983E","#C4852E","#8B9A5B","#DFC5A5"],
-  gridLine: "#E8D5C0",
-  textSecondary: "#6B5040",
-  textMuted: "#9B8570",
-  projectionShade: "#F5E8D8",
-  indicatorStroke: "#2D1810"
-};
-
-// ═══════════════ CHART RENDERING ═══════════════
-const margin={top:20,right:100,bottom:40,left:60};
-
-function mkSvg(container,w,h) {
-  const svg=d3.select(container).append("svg")
-    .attr("viewBox",`0 0 ${w} ${h}`).attr("width",w).attr("height",h)
-    .style("overflow","visible");
-  return {svg, g:svg.append("g").attr("transform",`translate(${margin.left},${margin.top})`),iw:w-margin.left-margin.right,ih:h-margin.top-margin.bottom};
-}
-
-function renderTempChart(yearVal) {
-  const c=document.getElementById("tempChart");
-  const w=c.clientWidth||640, h=380;
-  c.innerHTML="";
-  const {g,iw,ih}=mkSvg(c,w,h);
-
+function renderTempChart(yearVal){
+  const c=document.getElementById("tempChart"),w=c.clientWidth||960,h=460;
+  const{g,iw,ih}=mkSvg(c,w,h);
   const xS=d3.scaleLinear().domain([1900,2100]).range([0,iw]);
-  const yMin=d3.min([...tempObserved,...tempSSP245,...tempSSP585],d=>d.anomaly);
-  const yMax=d3.max([...tempObserved,...tempSSP245,...tempSSP585],d=>d.anomaly);
+  const yMin=d3.min([...tempObserved,...tempSSP245,...tempSSP585],d=>d.anomaly),yMax=d3.max([...tempObserved,...tempSSP245,...tempSSP585],d=>d.anomaly);
   const yS=d3.scaleLinear().domain([Math.floor(yMin),Math.ceil(yMax)+0.5]).range([ih,0]);
-
   g.append("g").attr("class","grid").call(d3.axisLeft(yS).ticks(8).tickSize(-iw).tickFormat(""));
-  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(10).tickFormat(d3.format("d")));
+  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(12).tickFormat(d3.format("d")));
   g.append("g").attr("class","axis").call(d3.axisLeft(yS).ticks(8).tickFormat(d=>`${d>0?'+':''}${d}°`));
-
   const line=d3.line().x(d=>xS(d.year)).y(d=>yS(d.anomaly)).curve(d3.curveMonotoneX);
-
-  // Area under observed for warmth
   const area=d3.area().x(d=>xS(d.year)).y0(ih).y1(d=>yS(d.anomaly)).curve(d3.curveMonotoneX);
-  g.append("path").datum(tempObserved.filter(d=>d.year>=2000)).attr("fill",C.temp).attr("fill-opacity",0.08).attr("d",area);
-
+  g.append("path").datum(tempObserved.filter(d=>d.year>=2000)).attr("fill",C.temp).attr("fill-opacity",0.07).attr("d",area);
   g.append("path").datum(tempObserved).attr("fill","none").attr("stroke",C.temp).attr("stroke-width",2.5).attr("d",line);
   g.append("path").datum(tempSSP245).attr("fill","none").attr("stroke",C.tempLight).attr("stroke-width",2).attr("stroke-dasharray","6 5").attr("stroke-opacity",0.8).attr("d",line);
   g.append("path").datum(tempSSP585).attr("fill","none").attr("stroke",C.magenta).attr("stroke-width",2).attr("stroke-dasharray","3 4").attr("stroke-opacity",0.7).attr("d",line);
-
-  // Paris thresholds
-  [1.5,2.0].forEach((v,i)=>{
-    if(v<=yS.domain()[1]) {
-      g.append("line").attr("x1",0).attr("x2",iw).attr("y1",yS(v)).attr("y2",yS(v))
-        .attr("stroke",i===0?C.gold:C.brick).attr("stroke-width",1).attr("stroke-dasharray","3 6").attr("stroke-opacity",0.6);
-      g.append("text").attr("x",iw-2).attr("y",yS(v)-5).attr("fill",i===0?C.gold:C.brick)
-        .attr("font-size",10).attr("text-anchor","end").attr("font-weight","600")
-        .text(`Paris ${v}°C`);
-    }
-  });
-
-  // Projection divider
-  g.append("line").attr("x1",xS(2024)).attr("x2",xS(2024)).attr("y1",0).attr("y2",ih)
-    .attr("stroke",C.gridLine).attr("stroke-width",1.5);
-  g.append("text").attr("x",xS(2024)+6).attr("y",14).attr("fill",C.textMuted)
-    .attr("font-size",10).attr("font-style","italic").text("Projections →");
-
-  // Indicator
-  const allT=[...tempObserved,...tempSSP245];
-  const tp=allT.find(d=>d.year===yearVal)||allT[allT.length-1];
-  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih)
-    .attr("stroke",C.indicatorStroke).attr("stroke-width",1).attr("stroke-opacity",0.15);
-  g.append("circle").attr("cx",xS(yearVal)).attr("cy",yS(tp.anomaly)).attr("r",6)
-    .attr("fill",C.temp).attr("stroke","white").attr("stroke-width",2.5).attr("class","indicator-dot");
-  g.append("text").attr("x",xS(yearVal)+10).attr("y",yS(tp.anomaly)-10)
-    .attr("fill",C.indicatorStroke).attr("font-size",13).attr("font-weight","700")
-    .text(`${yearVal}: +${tp.anomaly.toFixed(2)}°C`);
-
-  // Legend
-  const leg=g.append("g").attr("transform",`translate(${iw-108},8)`);
-  [{l:"Observed",c:C.temp,s:""},{l:"SSP2-4.5 (~2.7°C)",c:C.tempLight,s:"6 5",o:0.8},{l:"SSP5-8.5 (~4.4°C)",c:C.magenta,s:"3 4",o:0.7}]
-    .forEach((d,i)=>{const y=i*18;
-      leg.append("line").attr("x1",0).attr("x2",18).attr("y1",y+6).attr("y2",y+6)
-        .attr("stroke",d.c).attr("stroke-width",2).attr("stroke-dasharray",d.s).attr("stroke-opacity",d.o||1);
-      leg.append("text").attr("x",24).attr("y",y+10).attr("fill",C.textSecondary).attr("font-size",10).text(d.l);
-    });
+  [1.5,2.0].forEach((v,i)=>{if(v<=yS.domain()[1]){g.append("line").attr("x1",0).attr("x2",iw).attr("y1",yS(v)).attr("y2",yS(v)).attr("stroke",i===0?C.gold:C.brick).attr("stroke-width",1).attr("stroke-dasharray","3 6").attr("stroke-opacity",0.6);g.append("text").attr("x",iw-4).attr("y",yS(v)-6).attr("fill",i===0?C.gold:C.brick).attr("font-size",10).attr("text-anchor","end").attr("font-weight","600").text(`Paris ${v}°C`);}});
+  g.append("line").attr("x1",xS(2024)).attr("x2",xS(2024)).attr("y1",0).attr("y2",ih).attr("stroke",C.gridLine).attr("stroke-width",1);
+  g.append("text").attr("x",xS(2024)+6).attr("y",14).attr("fill",C.textMuted).attr("font-size",10).attr("font-style","italic").text("Projections");
+  const allT=[...tempObserved,...tempSSP245],tp=allT.find(d=>d.year===yearVal)||allT[allT.length-1];
+  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",1.5).attr("stroke-opacity",0.18);
+  g.append("circle").attr("cx",xS(yearVal)).attr("cy",yS(tp.anomaly)).attr("r",7).attr("fill",C.temp).attr("stroke","white").attr("stroke-width",2.5).attr("class","indicator-dot");
+  g.append("text").attr("x",xS(yearVal)+12).attr("y",yS(tp.anomaly)-12).attr("fill",C.indicatorStroke).attr("font-size",14).attr("font-weight","700").text(`${yearVal}: +${tp.anomaly.toFixed(2)}°C`);
+  // Legend bottom-left to avoid axis overlap
+  const leg=g.append("g").attr("transform",`translate(0,${ih+28})`);
+  [{l:"Observed",c:C.temp,s:""},{l:"SSP2-4.5 (~2.7°C)",c:C.tempLight,s:"6 5",o:0.8},{l:"SSP5-8.5 (~4.4°C)",c:C.magenta,s:"3 4",o:0.7}].forEach((d,i)=>{const x=i*180;leg.append("line").attr("x1",x).attr("x2",x+20).attr("y1",0).attr("y2",0).attr("stroke",d.c).attr("stroke-width",2).attr("stroke-dasharray",d.s).attr("stroke-opacity",d.o||1);leg.append("text").attr("x",x+26).attr("y",4).attr("fill",C.textSecondary).attr("font-size",11).text(d.l);});
 }
 
-function renderCO2Chart(yearVal) {
-  const c=document.getElementById("co2Chart");
-  const w=c.clientWidth||640, h=380;
-  c.innerHTML="";
-  const {g,iw,ih}=mkSvg(c,w,h);
-
-  const xS=d3.scaleLinear().domain([1900,2100]).range([0,iw]);
-  const yS=d3.scaleLinear().domain([280,1150]).range([ih,0]);
-
+function renderCO2Chart(yearVal){
+  const c=document.getElementById("co2Chart"),w=c.clientWidth||960,h=460;
+  const{g,iw,ih}=mkSvg(c,w,h);
+  const xS=d3.scaleLinear().domain([1900,2100]).range([0,iw]),yS=d3.scaleLinear().domain([280,1150]).range([ih,0]);
   g.append("g").attr("class","grid").call(d3.axisLeft(yS).ticks(8).tickSize(-iw).tickFormat(""));
-
-  const area=d3.area().x(d=>xS(d.year)).y0(ih).y1(d=>yS(d.co2)).curve(d3.curveMonotoneX);
-  const line=d3.line().x(d=>xS(d.year)).y(d=>yS(d.co2)).curve(d3.curveMonotoneX);
-
-  g.append("path").datum(co2Observed).attr("fill",C.co2).attr("fill-opacity",0.12).attr("d",area);
+  const area=d3.area().x(d=>xS(d.year)).y0(ih).y1(d=>yS(d.co2)).curve(d3.curveMonotoneX),line=d3.line().x(d=>xS(d.year)).y(d=>yS(d.co2)).curve(d3.curveMonotoneX);
+  g.append("path").datum(co2Observed).attr("fill",C.co2).attr("fill-opacity",0.10).attr("d",area);
   g.append("path").datum(co2Observed).attr("fill","none").attr("stroke",C.co2).attr("stroke-width",2.5).attr("d",line);
-  g.append("path").datum(co2SSP245).attr("fill",C.co2Light).attr("fill-opacity",0.05).attr("d",area);
+  g.append("path").datum(co2SSP245).attr("fill",C.co2Light).attr("fill-opacity",0.04).attr("d",area);
   g.append("path").datum(co2SSP245).attr("fill","none").attr("stroke",C.co2Light).attr("stroke-width",2).attr("stroke-dasharray","6 5").attr("stroke-opacity",0.7).attr("d",line);
-  g.append("path").datum(co2SSP585).attr("fill",C.magentaLight).attr("fill-opacity",0.06).attr("d",area);
+  g.append("path").datum(co2SSP585).attr("fill",C.magentaLight).attr("fill-opacity",0.05).attr("d",area);
   g.append("path").datum(co2SSP585).attr("fill","none").attr("stroke",C.magenta).attr("stroke-width",2).attr("stroke-dasharray","3 4").attr("stroke-opacity",0.7).attr("d",line);
-
-  // Thresholds
-  [350,450].forEach(ppm=>{
-    g.append("line").attr("x1",0).attr("x2",iw).attr("y1",yS(ppm)).attr("y2",yS(ppm))
-      .attr("stroke",ppm===350?C.olive:C.gold).attr("stroke-width",1).attr("stroke-dasharray","3 6").attr("stroke-opacity",0.5);
-    g.append("text").attr("x",iw-2).attr("y",yS(ppm)-5).attr("fill",ppm===350?C.olive:C.gold)
-      .attr("font-size",10).attr("text-anchor","end").attr("font-weight","600").text(`${ppm} ppm`);
-  });
-
-  g.append("line").attr("x1",xS(2024)).attr("x2",xS(2024)).attr("y1",0).attr("y2",ih).attr("stroke",C.gridLine).attr("stroke-width",1.5);
-  g.append("text").attr("x",xS(2024)+6).attr("y",14).attr("fill",C.textMuted).attr("font-size",10).attr("font-style","italic").text("Projections →");
-
-  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(10).tickFormat(d3.format("d")));
+  [350,450].forEach(ppm=>{g.append("line").attr("x1",0).attr("x2",iw).attr("y1",yS(ppm)).attr("y2",yS(ppm)).attr("stroke",ppm===350?C.olive:C.gold).attr("stroke-width",1).attr("stroke-dasharray","3 6").attr("stroke-opacity",0.5);g.append("text").attr("x",iw-4).attr("y",yS(ppm)-6).attr("fill",ppm===350?C.olive:C.gold).attr("font-size",10).attr("text-anchor","end").attr("font-weight","600").text(`${ppm} ppm`);});
+  g.append("line").attr("x1",xS(2024)).attr("x2",xS(2024)).attr("y1",0).attr("y2",ih).attr("stroke",C.gridLine).attr("stroke-width",1);
+  g.append("text").attr("x",xS(2024)+6).attr("y",14).attr("fill",C.textMuted).attr("font-size",10).attr("font-style","italic").text("Projections");
+  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(12).tickFormat(d3.format("d")));
   g.append("g").attr("class","axis").call(d3.axisLeft(yS).ticks(8));
-
-  const allC=[...co2Observed,...co2SSP245];
-  const cp=allC.find(d=>d.year===yearVal)||allC[allC.length-1];
-  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",1).attr("stroke-opacity",0.15);
-  g.append("circle").attr("cx",xS(yearVal)).attr("cy",yS(cp.co2)).attr("r",6).attr("fill",C.co2).attr("stroke","white").attr("stroke-width",2.5).attr("class","indicator-dot");
-  g.append("text").attr("x",xS(yearVal)+10).attr("y",yS(cp.co2)-10).attr("fill",C.indicatorStroke).attr("font-size",13).attr("font-weight","700").text(`${yearVal}: ${cp.co2.toFixed(0)} ppm`);
+  const allC=[...co2Observed,...co2SSP245],cp=allC.find(d=>d.year===yearVal)||allC[allC.length-1];
+  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",1.5).attr("stroke-opacity",0.18);
+  g.append("circle").attr("cx",xS(yearVal)).attr("cy",yS(cp.co2)).attr("r",7).attr("fill",C.co2).attr("stroke","white").attr("stroke-width",2.5).attr("class","indicator-dot");
+  g.append("text").attr("x",xS(yearVal)+12).attr("y",yS(cp.co2)-12).attr("fill",C.indicatorStroke).attr("font-size",14).attr("font-weight","700").text(`${yearVal}: ${cp.co2.toFixed(0)} ppm`);
+  const leg=g.append("g").attr("transform",`translate(0,${ih+28})`);
+  [{l:"Observed",c:C.co2,s:""},{l:"SSP2-4.5",c:C.co2Light,s:"6 5",o:0.7},{l:"SSP5-8.5",c:C.magenta,s:"3 4",o:0.7}].forEach((d,i)=>{const x=i*150;leg.append("line").attr("x1",x).attr("x2",x+20).attr("y1",0).attr("y2",0).attr("stroke",d.c).attr("stroke-width",2).attr("stroke-dasharray",d.s).attr("stroke-opacity",d.o||1);leg.append("text").attr("x",x+26).attr("y",4).attr("fill",C.textSecondary).attr("font-size",11).text(d.l);});
 }
 
-function renderPopChart(yearVal) {
-  const c=document.getElementById("popChart");
-  const w=c.clientWidth||640, h=380;
-  c.innerHTML="";
-  const {g,iw,ih}=mkSvg(c,w,h);
-
-  const xS=d3.scaleLinear().domain([2000,2100]).range([0,iw]);
-  const yMax=d3.max(popData,d=>d3.sum(d.values));
-  const yS=d3.scaleLinear().domain([0,yMax*1.05]).range([ih,0]);
-
+function renderPopChart(yearVal){
+  const c=document.getElementById("popChart"),w=c.clientWidth||960,h=470;
+  const{g,iw,ih}=mkSvg(c,w,h);
+  const xS=d3.scaleLinear().domain([2000,2100]).range([0,iw]),yMax=d3.max(popData,d=>d3.sum(d.values)),yS=d3.scaleLinear().domain([0,yMax*1.05]).range([ih,0]);
   g.append("g").attr("class","grid").call(d3.axisLeft(yS).ticks(6).tickSize(-iw).tickFormat(d=>d>=1000?`${(d/1000).toFixed(0)}B`:`${d}M`));
-
-  const stack=d3.stack().keys(d3.range(popRegions.length));
-  const stacked=stack(popInterpolated.map(d=>{const o={year:d.year};d.values.forEach((v,i)=>o[i]=v);return o;}));
-  const areaGen=d3.area().x(d=>xS(d.data.year)).y0(d=>yS(d[0])).y1(d=>yS(d[1])).curve(d3.curveMonotoneX);
-
-  stacked.forEach((layer,i)=>{
-    g.append("path").datum(layer).attr("fill",C.pop[i%6]).attr("fill-opacity",0.75).attr("stroke","white").attr("stroke-width",0.5).attr("d",areaGen);
-  });
-
-  const yr=Math.round(yearVal);
-  const yd=popInterpolated.find(d=>d.year===yr)||popInterpolated[popInterpolated.length-1];
-  const total=yd?d3.sum(yd.values):0;
-
-  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",1.5).attr("stroke-opacity",0.3);
-  g.append("text").attr("x",xS(yearVal)+8).attr("y",18).attr("fill",C.indicatorStroke).attr("font-size",13).attr("font-weight","700").text(`${yr}: ${total>=1000?(total/1000).toFixed(1)+'B':total.toFixed(0)+'M'} people`);
-
-  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(10).tickFormat(d3.format("d")));
+  const stack=d3.stack().keys(d3.range(popRegions.length)),stacked=stack(popInterpolated.map(d=>{const o={year:d.year};d.values.forEach((v,i)=>o[i]=v);return o;})),areaGen=d3.area().x(d=>xS(d.data.year)).y0(d=>yS(d[0])).y1(d=>yS(d[1])).curve(d3.curveMonotoneX);
+  stacked.forEach((layer,i)=>{g.append("path").datum(layer).attr("fill",C.pop[i%6]).attr("fill-opacity",0.75).attr("stroke","white").attr("stroke-width",0.5).attr("d",areaGen);});
+  const yr=Math.round(yearVal),yd=popInterpolated.find(d=>d.year===yr)||popInterpolated[popInterpolated.length-1],total=yd?d3.sum(yd.values):0;
+  g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",2).attr("stroke-opacity",0.25);
+  g.append("text").attr("x",xS(yearVal)+10).attr("y",20).attr("fill",C.indicatorStroke).attr("font-size",14).attr("font-weight","700").text(`${yr}: ${total>=1000?(total/1000).toFixed(1)+'B':total.toFixed(0)+'M'} people`);
+  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(12).tickFormat(d3.format("d")));
   g.append("g").attr("class","axis").call(d3.axisLeft(yS).ticks(6).tickFormat(d=>d>=1000?`${(d/1000).toFixed(1)}B`:`${d}M`));
-
-  const leg=g.append("g").attr("transform",`translate(${iw-112},10)`);
-  popRegions.forEach((r,i)=>{
-    const y=i*16;
-    leg.append("rect").attr("x",0).attr("y",y).attr("width",10).attr("height",10).attr("fill",C.pop[i%6]).attr("rx",2);
-    leg.append("text").attr("x",15).attr("y",y+9).attr("fill",C.textSecondary).attr("font-size",9).text(r);
-  });
+  // Legend below chart to avoid overlap
+  const leg=g.append("g").attr("transform",`translate(0,${ih+24})`);
+  popRegions.forEach((r,i)=>{const x=(i%3)*200,y=Math.floor(i/3)*18;leg.append("rect").attr("x",x).attr("y",y).attr("width",12).attr("height",12).attr("fill",C.pop[i%6]).attr("rx",2);leg.append("text").attr("x",x+17).attr("y",y+10).attr("fill",C.textSecondary).attr("font-size",11).text(r);});
 }
 
-function renderEconChart(yearVal) {
-  const c=document.getElementById("econChart");
-  const w=c.clientWidth||640, h=380;
-  c.innerHTML="";
-  const {g,iw,ih}=mkSvg(c,w,h);
-
-  const xS=d3.scaleLinear().domain([2000,2100]).range([0,iw]);
-  const ySL=d3.scaleLinear().domain([0,d3.max(econData,d=>d.damagePct)*1.1]).range([ih,0]);
-  const ySR=d3.scaleLinear().domain([0,d3.max(econData,d=>d.cumulativeTrillions)*1.05]).range([ih,0]);
-
-  g.append("g").attr("class","grid").call(d3.axisLeft(ySL).ticks(6).tickSize(-iw).tickFormat(d=>`${d}%`));
-
-  const displayData=econData.filter(d=>d.year<=yearVal);
-  const barW=Math.max(1,iw/100*0.7);
-  displayData.forEach(d=>{
-    g.append("rect").attr("x",xS(d.year)-barW/2).attr("y",ySL(d.damagePct)).attr("width",barW).attr("height",ih-ySL(d.damagePct)).attr("fill",C.clay).attr("fill-opacity",0.7).attr("rx",1);
-  });
-
-  const cumLine=d3.line().x(d=>xS(d.year)).y(d=>ySR(d.cumulativeTrillions)).curve(d3.curveMonotoneX);
-  const cumData=econData.filter(d=>d.year<=yearVal);
-  if(cumData.length>1) g.append("path").datum(cumData).attr("fill","none").attr("stroke",C.gold).attr("stroke-width",2.5).attr("d",cumLine);
-
-  g.append("g").attr("class","axis").attr("transform",`translate(${iw},0)`).call(d3.axisRight(ySR).ticks(5).tickFormat(d=>`$${d.toFixed(0)}T`));
-  g.append("text").attr("transform","rotate(90)").attr("y",-iw-45).attr("x",ih/2).attr("fill",C.gold).attr("font-size",11).attr("text-anchor","middle").attr("font-weight","600").text("Cumulative (Trillions USD)");
-
+function renderEconChart(yearVal){
+  const c=document.getElementById("econChart"),w=c.clientWidth||960,h=460;
+  const{g,iw,ih}=mkSvg(c,w,h);
+  // Wider right margin for dual-axis clarity
+  const rightM=130,iwE=w-M.left-rightM;
+  g.attr("transform",`translate(${M.left},${M.top})`);
+  const xS=d3.scaleLinear().domain([2000,2100]).range([0,iwE]),ySL=d3.scaleLinear().domain([0,d3.max(econData,d=>d.damagePct)*1.1]).range([ih,0]),ySR=d3.scaleLinear().domain([0,d3.max(econData,d=>d.cumulativeTrillions)*1.05]).range([ih,0]);
+  g.append("g").attr("class","grid").call(d3.axisLeft(ySL).ticks(6).tickSize(-iwE).tickFormat(d=>`${d}%`));
+  const displayData=econData.filter(d=>d.year<=yearVal),barW=Math.max(1,iwE/100*0.7);
+  displayData.forEach(d=>{g.append("rect").attr("x",xS(d.year)-barW/2).attr("y",ySL(d.damagePct)).attr("width",barW).attr("height",ih-ySL(d.damagePct)).attr("fill",C.clay).attr("fill-opacity",0.7).attr("rx",1);});
+  const cumLine=d3.line().x(d=>xS(d.year)).y(d=>ySR(d.cumulativeTrillions)).curve(d3.curveMonotoneX),cumData=econData.filter(d=>d.year<=yearVal);
+  if(cumData.length>1)g.append("path").datum(cumData).attr("fill","none").attr("stroke",C.gold).attr("stroke-width",2.5).attr("d",cumLine);
+  // Right axis with more space
+  g.append("g").attr("class","axis").attr("transform",`translate(${iwE},0)`).call(d3.axisRight(ySR).ticks(5).tickFormat(d=>`$${d.toFixed(0)}T`));
+  g.append("text").attr("transform","rotate(90)").attr("y",-iwE-50).attr("x",ih/2).attr("fill",C.gold).attr("font-size",12).attr("text-anchor","middle").attr("font-weight","600").text("Cumulative (Trillions USD)");
   const ep=econData.find(d=>d.year===yearVal)||econData[econData.length-1];
-  g.append("circle").attr("cx",xS(yearVal)).attr("cy",ySL(ep.damagePct)).attr("r",5).attr("fill",C.indicatorStroke).attr("class","indicator-dot");
-  g.append("text").attr("x",xS(yearVal)+8).attr("y",ySL(ep.damagePct)-8).attr("fill",C.indicatorStroke).attr("font-size",12).attr("font-weight","700").text(`${ep.damagePct.toFixed(1)}% GDP`);
+  g.append("circle").attr("cx",xS(yearVal)).attr("cy",ySL(ep.damagePct)).attr("r",6).attr("fill",C.indicatorStroke).attr("class","indicator-dot");
+  g.append("text").attr("x",xS(yearVal)+10).attr("y",ySL(ep.damagePct)-10).attr("fill",C.indicatorStroke).attr("font-size",13).attr("font-weight","700").text(`${ep.damagePct.toFixed(1)}% GDP`);
   g.append("line").attr("x1",xS(yearVal)).attr("x2",xS(yearVal)).attr("y1",0).attr("y2",ih).attr("stroke",C.indicatorStroke).attr("stroke-width",1).attr("stroke-opacity",0.15);
-
-  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(10).tickFormat(d3.format("d")));
+  g.append("g").attr("class","axis").attr("transform",`translate(0,${ih})`).call(d3.axisBottom(xS).ticks(12).tickFormat(d3.format("d")));
   g.append("g").attr("class","axis").call(d3.axisLeft(ySL).ticks(6).tickFormat(d=>`${d}%`));
-  g.append("text").attr("transform","rotate(-90)").attr("y",-48).attr("x",-ih/2).attr("fill",C.textSecondary).attr("font-size",11).attr("text-anchor","middle").text("Annual GDP Loss (%)");
+  g.append("text").attr("transform","rotate(-90)").attr("y",-52).attr("x",-ih/2).attr("fill",C.textSecondary).attr("font-size",12).attr("text-anchor","middle").text("Annual GDP Loss (%)");
+  // Legend below
+  const leg=g.append("g").attr("transform",`translate(0,${ih+28})`);
+  [{l:"Annual GDP Loss",c:C.clay,shape:"rect"},{l:"Cumulative Cost",c:C.gold,shape:"line"}].forEach((d,i)=>{const x=i*200;if(d.shape==="rect"){leg.append("rect").attr("x",x).attr("y",-6).attr("width",18).attr("height",12).attr("fill",d.c).attr("fill-opacity",0.7).attr("rx",2);}else{leg.append("line").attr("x1",x).attr("x2",x+18).attr("y1",0).attr("y2",0).attr("stroke",d.c).attr("stroke-width",2.5);}leg.append("text").attr("x",x+24).attr("y",4).attr("fill",C.textSecondary).attr("font-size",11).text(d.l);});
 }
 
-// ═══════════════ KPI + DATA TABLE ═══════════════
+// ═══ STATE: master year + 4 independent years ═══
+let masterYear=2024;
+const years={temp:2024,co2:2024,pop:2024,econ:2024};
+const playing={master:false,temp:false,co2:false,pop:false,econ:false};
+const intervals={};
 
-function renderAll(yearVal) {
-  // KPIs
-  const allT=[...tempObserved,...tempSSP245], tp=allT.find(d=>d.year===yearVal)||allT[allT.length-1];
-  const allC=[...co2Observed,...co2SSP245], cp=allC.find(d=>d.year===yearVal)||allC[allC.length-1];
-  const yr=Math.round(yearVal/10)*10, pd=popData.find(d=>d.year===yr)||popData[popData.length-1];
+function getKPIData(y){
+  const allT=[...tempObserved,...tempSSP245],tp=allT.find(d=>d.year===y)||allT[allT.length-1];
+  const allC=[...co2Observed,...co2SSP245],cp=allC.find(d=>d.year===y)||allC[allC.length-1];
+  const yrR=Math.round(y/10)*10,pd=popData.find(d=>d.year===yrR)||popData[popData.length-1];
   const total=pd?pd.values.reduce((a,b)=>a+b,0):0;
-  const ep=econData.find(d=>d.year===yearVal)||econData[econData.length-1];
-
-  document.getElementById("kpiCards").innerHTML=`
-    <div class="kpi-card kpi-temp">
-      <div class="kpi-value">+${tp.anomaly.toFixed(2)}°C</div>
-      <div class="kpi-label">Temperature Anomaly</div>
-      <div class="kpi-sub">vs. 1951–1980 baseline</div>
-    </div>
-    <div class="kpi-card kpi-co2">
-      <div class="kpi-value">${cp.co2.toFixed(0)}</div>
-      <div class="kpi-label">Atmospheric CO₂</div>
-      <div class="kpi-sub">parts per million</div>
-    </div>
-    <div class="kpi-card kpi-pop">
-      <div class="kpi-value">${total>=1000?(total/1000).toFixed(1)+'B':total+'M'}</div>
-      <div class="kpi-label">People Exposed</div>
-      <div class="kpi-sub">extreme heat, 15+ days/year</div>
-    </div>
-    <div class="kpi-card kpi-econ">
-      <div class="kpi-value">${ep.damagePct.toFixed(1)}%</div>
-      <div class="kpi-label">Annual GDP Loss</div>
-      <div class="kpi-sub">from climate damages</div>
-    </div>`;
-
-  // Data table
-  document.getElementById("dataTableYear").textContent=yearVal;
-  const trendArrows=tp.anomaly>=0?"↑":"↓";
-  document.getElementById("dataTableBody").innerHTML=`
-    <tr><td>Global Temperature Anomaly</td><td class="mono">+${tp.anomaly.toFixed(2)}°C</td><td class="mono" style="color:${C.temp}">${trendArrows} Accelerating warming since 1970s</td></tr>
-    <tr><td>Atmospheric CO₂ Concentration</td><td class="mono">${cp.co2.toFixed(0)} ppm</td><td class="mono" style="color:${C.co2}">↑ +${(cp.co2-(co2Observed.find(d=>d.year===2000)||{co2:369}).co2).toFixed(0)} ppm since 2000</td></tr>
-    <tr><td>Population Exposed to Extreme Heat</td><td class="mono">${total>=1000?(total/1000).toFixed(1)+' billion':total+' million'}</td><td class="mono" style="color:${C.brick}">↑ ${total>=1000?'Billions':'Hundreds of millions'} projected by mid-century</td></tr>
-    <tr><td>Cumulative Economic Damage</td><td class="mono">$${ep.cumulativeTrillions.toFixed(1)} trillion</td><td class="mono" style="color:${C.clay}">↑ Compounding annually from 2020</td></tr>
-    <tr><td>Annual GDP Loss</td><td class="mono">${ep.damagePct.toFixed(1)}%</td><td class="mono" style="color:${C.gold}">↑ Quadratic damage function — accelerates with warming</td></tr>`;
-
-  // Charts
-  renderTempChart(yearVal);
-  renderCO2Chart(yearVal);
-  renderPopChart(yearVal);
-  renderEconChart(yearVal);
-
-  // Sync slider + display
-  document.getElementById("yearDisplay").textContent=yearVal;
-  document.getElementById("yearSlider").value=yearVal;
-  currentYear=yearVal;
+  const ep=econData.find(d=>d.year===y)||econData[econData.length-1];
+  return{tp,cp,total,ep};
 }
 
-// ═══════════════ INIT ═══════════════
-let currentYear=2024, playing=false, interval;
+function renderKPIs(y){
+  const{tp,cp,total,ep}=getKPIData(y);
+  document.getElementById("kpiCards").innerHTML=`
+    <div class="kpi-card"><div class="kpi-value" style="color:${C.temp}">+${tp.anomaly.toFixed(2)}°C</div><div class="kpi-label">Temperature Anomaly</div><div class="kpi-sub">vs. 1951–1980 baseline</div></div>
+    <div class="kpi-card"><div class="kpi-value" style="color:${C.co2}">${cp.co2.toFixed(0)}</div><div class="kpi-label">Atmospheric CO₂</div><div class="kpi-sub">parts per million</div></div>
+    <div class="kpi-card"><div class="kpi-value" style="color:${C.brick}">${total>=1000?(total/1000).toFixed(1)+'B':total+'M'}</div><div class="kpi-label">People Exposed</div><div class="kpi-sub">extreme heat, 15+ days/yr</div></div>
+    <div class="kpi-card"><div class="kpi-value" style="color:${C.clay}">${ep.damagePct.toFixed(1)}%</div><div class="kpi-label">Annual GDP Loss</div><div class="kpi-sub">from climate damages</div></div>`;
+}
 
-// Year ticks
-const tickDiv=document.getElementById("yearTicks");
-for (let y=2000;y<=2100;y+=10) tickDiv.innerHTML+=`<span>${y}</span>`;
+function renderDataTable(y){
+  const{tp,cp,total,ep}=getKPIData(y);
+  document.getElementById("dataTableYear").textContent=y;
+  document.getElementById("dataTableBody").innerHTML=`
+    <tr><td>Global Temperature Anomaly</td><td class="mono">+${tp.anomaly.toFixed(2)}°C</td><td style="color:${C.temp}">Accelerating warming since 1970s</td></tr>
+    <tr><td>Atmospheric CO₂ Concentration</td><td class="mono">${cp.co2.toFixed(0)} ppm</td><td style="color:${C.co2}">+${(cp.co2-(co2Observed.find(d=>d.year===2000)||{co2:369}).co2).toFixed(0)} ppm since 2000</td></tr>
+    <tr><td>Population Exposed to Extreme Heat</td><td class="mono">${total>=1000?(total/1000).toFixed(1)+' billion':total+' million'}</td><td style="color:${C.brick}">Billions projected by mid-century</td></tr>
+    <tr><td>Cumulative Economic Damage</td><td class="mono">$${ep.cumulativeTrillions.toFixed(1)} trillion</td><td style="color:${C.clay}">Compounding since 2020</td></tr>
+    <tr><td>Annual GDP Loss</td><td class="mono">${ep.damagePct.toFixed(1)}%</td><td style="color:${C.gold}">Quadratic damage function — accelerates with warming</td></tr>`;
+}
 
-// Slider
-document.getElementById("yearSlider").addEventListener("input",function(){
-  renderAll(parseInt(this.value));
+function syncMasterUI(y){
+  document.getElementById("masterYear").textContent=y;
+  document.getElementById("masterSlider").value=y;
+  masterYear=y;
+}
+
+function renderDimension(dim,yearVal){
+  years[dim]=yearVal;
+  document.getElementById(dim+"Year").textContent=yearVal;
+  document.getElementById(dim+"Slider").value=yearVal;
+  if(dim==="temp")renderTempChart(yearVal);
+  if(dim==="co2")renderCO2Chart(yearVal);
+  if(dim==="pop")renderPopChart(yearVal);
+  if(dim==="econ")renderEconChart(yearVal);
+}
+
+function renderAllDimensions(y){
+  syncMasterUI(y);
+  renderKPIs(y);
+  renderDataTable(y);
+  ["temp","co2","pop","econ"].forEach(dim=>{years[dim]=y;renderDimension(dim,y);});
+}
+
+function togglePlay(dim){
+  playing[dim]=!playing[dim];
+  const btnId=dim==="master"?"masterPlay":dim+"Play";
+  const btn=document.getElementById(btnId);
+  btn.textContent=playing[dim]?"⏸ Pause":"▶ Play";
+  if(dim==="master")btn.classList.toggle("playing",playing[dim]);
+  else btn.classList.toggle("playing",playing[dim]);
+
+  if(playing[dim]){
+    intervals[dim]=setInterval(()=>{
+      let yr=dim==="master"?masterYear:years[dim];
+      yr=yr>=2100?2000:yr+1;
+      if(dim==="master"){renderAllDimensions(yr);}else{renderDimension(dim,yr);if(masterYear!==yr){syncMasterUI(yr);renderKPIs(yr);renderDataTable(yr);}}
+    },180);
+  }else{clearInterval(intervals[dim]);}
+}
+
+// ═══ INIT ═══
+// Master ticks
+const mt=document.getElementById("masterTicks");
+for(let y=2000;y<=2100;y+=10)mt.innerHTML+=`<span>${y}</span>`;
+
+// Master slider
+document.getElementById("masterSlider").addEventListener("input",function(){renderAllDimensions(parseInt(this.value));});
+document.getElementById("masterPlay").addEventListener("click",()=>togglePlay("master"));
+
+// Dimension sliders + play buttons
+["temp","co2","pop","econ"].forEach(dim=>{
+  document.getElementById(dim+"Slider").addEventListener("input",function(){const y=parseInt(this.value);renderDimension(dim,y);syncMasterUI(y);renderKPIs(y);renderDataTable(y);});
+  document.getElementById(dim+"Play").addEventListener("click",()=>togglePlay(dim));
 });
 
-// Play/Pause — SLOWER: 180ms per step (~18 second full playthrough)
-document.getElementById("playBtn").addEventListener("click",function(){
-  playing=!playing;
-  this.textContent=playing?"⏸ Pause":"▶ Play Animation";
-  if(playing){
-    interval=setInterval(()=>{
-      let v=currentYear+1;
-      if(v>2100)v=2000;
-      renderAll(v);
-    },180); // Slow, deliberate animation
-  }else{
-    clearInterval(interval);
-  }
-});
+// Resize
+window.addEventListener("resize",()=>{["temp","co2","pop","econ"].forEach(dim=>renderDimension(dim,years[dim]));});
 
-// Resize handler
-window.addEventListener("resize",()=>renderAll(currentYear));
+// Keyboard
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowRight"){renderAllDimensions(Math.min(2100,masterYear+1));}
+  if(e.key==="ArrowLeft"){renderAllDimensions(Math.max(2000,masterYear-1));}
+  if(e.key===" "&&e.target===document.body){e.preventDefault();togglePlay("master");}
+});
 
 // Initial render
-renderAll(2024);
-
-// Keyboard navigation
-document.addEventListener("keydown",function(e){
-  if(e.key==="ArrowRight"){renderAll(Math.min(2100,currentYear+1));}
-  if(e.key==="ArrowLeft"){renderAll(Math.max(2000,currentYear-1));}
-  if(e.key===" "){e.preventDefault();document.getElementById("playBtn").click();}
-});
+renderAllDimensions(2024);
+// Stop all initial intervals
+Object.keys(playing).forEach(k=>{playing[k]=false;});
 </script>
 </body>
 </html>
