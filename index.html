@@ -172,41 +172,11 @@ nav {
 .chart-context {
   margin-top: 14px; padding-top: 14px;
   border-top: 1px solid var(--border-light);
-  font-size: 13px; color: var(--text-secondary); line-height: 1.65;
+  font-size: 14px; color: var(--text-secondary); line-height: 1.75;
 }
+.chart-context p { margin-bottom: 14px; }
+.chart-context p:last-child { margin-bottom: 0; }
 .chart-context strong { color: var(--text-primary); }
-
-/* Master timeline */
-.master-timeline {
-  background: var(--bg-card); border: 1px solid var(--border-light);
-  border-radius: var(--radius); padding: 24px 32px;
-  box-shadow: var(--shadow-sm); margin-bottom: 24px;
-}
-.master-year {
-  font-size: 56px; font-weight: 800; font-family: var(--font-mono);
-  letter-spacing: -0.03em; line-height: 1; text-align: center;
-  background: linear-gradient(135deg, var(--accent), var(--brick));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 12px;
-}
-.master-timeline input[type=range] {
-  width: 100%; margin-top: 8px; accent-color: var(--accent);
-  height: 6px; border-radius: 3px; cursor: pointer;
-}
-.master-labels {
-  display: flex; justify-content: space-between;
-  font-size: 12px; color: var(--text-muted); margin-bottom: 6px;
-}
-#masterPlay {
-  background: var(--accent); color: white; border: none;
-  border-radius: 8px; padding: 8px 24px; cursor: pointer;
-  font-size: 14px; font-weight: 600; transition: background 0.2s;
-}
-#masterPlay:hover { background: var(--accent-deep); }
-.master-ticks {
-  display: flex; justify-content: space-between;
-  font-size: 10px; color: var(--text-muted); margin-top: 4px;
-}
 
 /* KPI row */
 .kpi-row {
@@ -269,7 +239,6 @@ nav {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .context-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 20px 32px; }
-  .master-year { font-size: 40px; }
   .mini-timeline { flex-wrap: wrap; }
   .nav-links { display: none; }
   .dim-nav { gap: 10px; }
@@ -277,7 +246,6 @@ nav {
 }
 @media (max-width: 500px) {
   .kpi-row { grid-template-columns: 1fr; }
-  .master-year { font-size: 34px; }
   .kpi-value { font-size: 28px; }
   .chart-section { padding: 20px 16px 16px; }
   .mini-year { font-size: 22px; min-width: 48px; }
@@ -296,6 +264,8 @@ nav {
       <li><a href="#carbon">Carbon</a></li>
       <li><a href="#exposure">Exposure</a></li>
       <li><a href="#economic">Economic</a></li>
+      <li><a href="#context">Analysis</a></li>
+      <li><a href="#solutions">Solutions</a></li>
     </ul>
   </div>
 </nav>
@@ -308,7 +278,8 @@ nav {
     Four interconnected dimensions of the climate crisis — global temperature,
     atmospheric carbon, human heat exposure, and economic damage —
     each explored independently across the 21st century.
-    Drag any timeline or use the master control to animate all dimensions in synchrony.
+    Drag any timeline to explore that dimension independently across the 21st century.
+    Use the arrow keys to step through all dimensions in synchrony.
   </p>
   <p class="dateline">Data: NASA GISTEMP · NOAA GML · IPCC AR6 · Lancet Countdown &nbsp;|&nbsp; H Heuristics © 2025</p>
 </header>
@@ -336,19 +307,18 @@ nav {
 <!-- ═════════ OVERVIEW: KPI CARDS + MASTER TIMELINE ═════════ -->
 <div class="section-wide" id="overview">
   <div class="kpi-row" id="kpiCards"></div>
+</div>
 
-  <div class="master-timeline">
-    <div class="master-year" id="masterYear">2024</div>
-    <div class="master-labels">
-      <span>2000</span>
-      <span><button id="masterPlay">▶ Animate All Dimensions</button></span>
-      <span>2100</span>
-    </div>
-    <input type="range" id="masterSlider" min="2000" max="2100" value="2024" step="1">
-    <div class="master-ticks" id="masterTicks"></div>
-    <p style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:8px;">
-      The master timeline synchronizes all four dimensions below. Each dimension also has its own independent control.
-    </p>
+<!-- ═════════ INTRODUCTION ═════════ -->
+<div class="section-wide">
+  <div class="section-header">
+    <h2>Understanding the Interconnected Crisis</h2>
+    <p>Four dimensions tell one story: a planet warming at an unprecedented rate, with profound consequences for human civilization</p>
+  </div>
+  <div style="max-width:800px;margin:0 auto;background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow-sm);font-size:15px;line-height:1.8;color:var(--text-secondary);">
+    <p style="margin-bottom:16px;">The 21st century will be defined by humanity's relationship with a rapidly warming planet. Since 1880, the global average surface temperature has risen by <strong style="color:var(--text-primary);">approximately 1.3°C</strong>, with the rate of warming roughly doubling since 1980. The last decade was the warmest in at least 125,000 years. This is not a natural cycle — the concentration of carbon dioxide in the atmosphere, now exceeding 420 parts per million, is higher than at any point in at least three million years, and the isotopic fingerprint of that carbon unambiguously identifies fossil fuel combustion as its source.</p>
+    <p style="margin-bottom:16px;">But temperature is only one dimension of the story. The <strong style="color:var(--text-primary);">human consequences</strong> — who is exposed, where, and at what cost — are what transform abstract climate data into an urgent policy challenge. This analysis examines four interconnected dimensions: the physical warming of the planet, the accumulation of heat-trapping gases driving that warming, the billions of people facing lethal heat conditions as a result, and the mounting economic costs that will reshape global prosperity. Each dimension can be explored independently through the interactive charts below. Use the timeline controls to animate any dimension across the 21st century, or use your keyboard's arrow keys to step through all four in synchrony.</p>
+    <p>The projections shown follow the IPCC's Shared Socioeconomic Pathways (SSPs). <strong style="color:var(--text-primary);">SSP2-4.5</strong> represents a "middle of the road" future where emissions peak around mid-century and decline thereafter; <strong style="color:var(--text-primary);">SSP5-8.5</strong> represents continued fossil-fueled development with minimal mitigation. The gap between these scenarios after 2050 illustrates the stakes: every tenth of a degree of avoided warming means tens of millions of people spared from lethal heat exposure and trillions of dollars in avoided economic losses. The choices made in this decade will echo through the rest of the century and beyond.</p>
   </div>
 </div>
 
@@ -380,10 +350,9 @@ nav {
     <div class="chart-container" id="tempChart"></div>
 
     <div class="chart-context">
-      <strong>What this shows:</strong> Global mean surface temperature relative to the 1951–1980 baseline.
-      Solid line shows observed warming; dashed lines show two futures — <strong>SSP2-4.5</strong> (moderate emissions, ~2.7°C by 2100)
-      and <strong>SSP5-8.5</strong> (high emissions, ~4.4°C). The Paris Agreement thresholds of 1.5°C and 2.0°C are marked as reference lines.
-      The divergence after 2050 represents one of the most consequential choices in human history.
+      <p><strong>Global mean surface temperature</strong> is the most fundamental measure of climate change. NASA's GISTEMP dataset, maintained by the Goddard Institute for Space Studies, combines land surface air temperatures from weather stations with sea surface temperatures from ships and buoys to produce a continuous record stretching back to 1880. The baseline period — 1951 to 1980 — represents a relatively stable pre-acceleration climate against which all anomalies are measured.</p>
+      <p>The solid orange line traces observed warming: a gradual rise through the early 20th century, a mid-century plateau, and then a sharp acceleration from the 1970s onward that continues unabated. The year <strong>2024 was the warmest on record at +1.28°C</strong> above the baseline, and the ten warmest years have all occurred since 2014. The dashed lines represent two futures from the IPCC's Shared Socioeconomic Pathways. <strong>SSP2-4.5</strong> — the "middle of the road" scenario — assumes emissions peak around 2050 before declining, limiting warming to approximately 2.7°C by century's end. <strong>SSP5-8.5</strong> — the fossil-fueled development pathway — would drive warming beyond 4.4°C, a level not seen on Earth in at least 15 million years.</p>
+      <p>The horizontal reference lines mark the Paris Agreement thresholds of <strong>1.5°C and 2.0°C</strong>. The 1.5°C line was first breached in 2016 (an El Niño year), and the long-term average is now approaching this threshold. The difference between 1.5°C and 2.0°C may sound small, but it represents roughly double the coral reef destruction, double the frequency of extreme heat events, and an additional 10 centimetres of sea level rise by 2100. The divergence of the two scenarios after 2050 illustrates what is arguably the most consequential policy choice in human history.</p>
     </div>
   </div>
 </div>
@@ -413,10 +382,9 @@ nav {
     <div class="chart-container" id="co2Chart"></div>
 
     <div class="chart-context">
-      <strong>What this shows:</strong> Atmospheric CO₂ concentration in parts per million, from ice core reconstructions and direct Mauna Loa Observatory measurements.
-      Pre-industrial levels were ~280 ppm; we crossed 420 ppm in 2023 — a level not seen in at least 3 million years.
-      The 350 ppm and 450 ppm reference lines mark key risk thresholds identified by climate science.
-      Under SSP5-8.5, CO₂ could exceed <strong>1,100 ppm</strong> by 2100.
+      <p><strong>Atmospheric carbon dioxide</strong> is the primary driver of long-term climate change. Measured continuously at the Mauna Loa Observatory in Hawaii since 1958 — producing the famous Keeling Curve — and extended backward through ice core analysis, the CO₂ record tells an unambiguous story. Pre-industrial concentrations held steady at approximately <strong>280 parts per million</strong> for thousands of years. The industrial revolution ignited a relentless climb: 300 ppm was passed around 1910, 350 ppm — long considered the "safe" upper boundary by climate scientists — was breached in 1988, and <strong>420 ppm was reached in 2023</strong>, a level last seen during the Pliocene epoch some three million years ago, when sea levels were 15–25 metres higher and forests grew in the Arctic.</p>
+      <p>The two SSP scenarios diverge dramatically. Under <strong>SSP2-4.5</strong>, CO₂ stabilizes around 550 ppm by 2100 as the world transitions toward cleaner energy and sustainable land use. Under <strong>SSP5-8.5</strong> — essentially a continuation of historical emission trends without meaningful mitigation — concentrations soar past 1,100 ppm, a level not seen since the Eocene epoch 50 million years ago, when the planet was entirely ice-free. The 350 ppm and 450 ppm reference lines mark thresholds beyond which scientists warn of escalating risks of tipping points: ice sheet collapse, permafrost carbon release, and Amazon dieback.</p>
+      <p>Every tonne of CO₂ emitted adds to the atmospheric stock, where it persists for centuries. The relationship is cumulative: even if emissions stopped tomorrow, the CO₂ already in the atmosphere would continue warming the planet for decades. This is why the <strong>rate of emission reduction matters as much as the eventual net-zero date</strong> — the area under the curve (cumulative emissions) determines peak warming, not the year net-zero is achieved.</p>
     </div>
   </div>
 </div>
@@ -446,9 +414,9 @@ nav {
     <div class="chart-container" id="popChart"></div>
 
     <div class="chart-context">
-      <strong>What this shows:</strong> People exposed to extreme heat conditions where the human body cannot cool itself through sweating, even in shade with unlimited water.
-      Stacked areas show the regional breakdown: <strong>South Asia</strong> bears the heaviest burden, followed by Sub-Saharan Africa and Southeast Asia.
-      By 2050, an estimated 2.6–3.5 billion people may face these conditions — regions that contributed least to cumulative emissions will suffer most.
+      <p><strong>Extreme heat exposure</strong> is measured here using <strong>wet-bulb temperature (TW)</strong> — a metric that combines heat and humidity to assess the human body's capacity to cool itself through sweating. At TW ≥ 35°C, even a perfectly healthy person resting in shade with unlimited access to water will suffer heat stroke within a matter of hours. This is a hard physiological limit: the body simply cannot shed heat faster than it accumulates it when the surrounding air is both hot enough and humid enough. Unlike dry heat, which can be mitigated with shade and hydration, extreme wet-bulb conditions are unsurvivable without artificial cooling.</p>
+      <p>The stacked areas show the regional distribution of exposed populations. <strong>South Asia</strong> — encompassing India, Pakistan, Bangladesh, and Sri Lanka — faces by far the heaviest burden, driven by the lethal combination of intense pre-monsoon heat, high humidity from the Bay of Bengal and Arabian Sea, and dense populations with limited access to air conditioning. <strong>Sub-Saharan Africa</strong> follows, where rapid population growth in the Sahel and West Africa intersects with rising temperatures. <strong>Southeast Asia</strong>, the <strong>Middle East and North Africa</strong>, and <strong>Latin America</strong> each face growing exposure. By mid-century, between 2.6 and 3.5 billion people may live in zones that experience lethal wet-bulb conditions for at least 15 days annually.</p>
+      <p>The injustice is stark: the regions facing the most severe heat exposure are, overwhelmingly, those that contributed the least to cumulative greenhouse gas emissions. South Asia's historical contribution to atmospheric CO₂ is less than 3% of the global total; Sub-Saharan Africa's is under 2%. The populations bearing the brunt of extreme heat did not cause the problem — they inherited it. This asymmetry between responsibility and impact is one of the defining moral challenges of the 21st century, and it underpins the increasingly urgent calls for <strong>adaptation finance</strong> and <strong>loss and damage</strong> funding from wealthy, high-emitting nations to the most vulnerable communities.</p>
     </div>
   </div>
 </div>
@@ -478,10 +446,9 @@ nav {
     <div class="chart-container" id="econChart"></div>
 
     <div class="chart-context">
-      <strong>What this shows:</strong> Climate damages as a percentage of global GDP, based on quadratic damage functions calibrated to IPCC AR6 WG2 and Burke et al.
-      The bars show annual impact; the gold line tracks cumulative damages in trillions of USD.
-      Under current trajectories, climate change imposes a <strong>growing, compounding drag</strong> on the global economy —
-      potentially reaching 10–18% of GDP by 2100, dwarfing the investments needed for clean energy transition.
+      <p><strong>The economic costs of climate change</strong> are modelled here using a <strong>quadratic damage function</strong> — a well-established approach in climate economics, pioneered by Marshall Burke, Solomon Hsiang, and colleagues, and incorporated into the IPCC's Sixth Assessment Report. The core insight: damages do not rise linearly with temperature. A 2°C world is not simply twice as costly as a 1°C world — it is approximately four times as costly, because impacts compound and interact across sectors. Agricultural yields decline nonlinearly with heat; labour productivity falls sharply above certain temperature thresholds; infrastructure designed for historical climate norms fails under unprecedented stress; and the costs of adaptation themselves consume an increasing share of economic output.</p>
+      <p>The red-brown bars show <strong>annual GDP loss as a percentage of global output</strong> — the drag that climate change imposes each year relative to a no-warming counterfactual. The gold line tracks <strong>cumulative damages in trillions of US dollars</strong>, summing the annual losses from 2020 onward. By mid-century, annual losses could reach 3–5% of global GDP under moderate scenarios; by 2100, the range extends to 10–18% under higher-warming pathways. To put this in perspective: the 2008 global financial crisis caused a one-time GDP loss of approximately 0.1% when smoothed over a decade. Climate change represents a permanent, compounding drag that grows larger every year.</p>
+      <p>The implications for investment and policy are profound. The estimated cost of achieving net-zero emissions by 2050 — including the full transformation of energy, transport, industrial, and agricultural systems — is in the range of <strong>1–2% of global GDP annually</strong>. The damages from inaction, as the chart shows, far exceed this figure by mid-century and accelerate thereafter. In economic terms, climate mitigation is not a cost — it is an <strong>investment with an extraordinarily high rate of return</strong>, measured in avoided damages, preserved ecosystems, and lives protected from extreme heat.</p>
     </div>
   </div>
 </div>
@@ -529,6 +496,32 @@ nav {
         <h4 style="margin:0;">The Solutions</h4>
       </div>
       <p>The technologies exist: rapid clean energy deployment, urban cooling, early warning systems, heat-resistant crops, adaptation finance. The challenge is <span class="highlight">diffusion</span> — how fast proven solutions reach the populations that need them most. This is the central research question of H Heuristics.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ WHAT CAN BE DONE ═════════ -->
+<div class="section-wide" id="solutions">
+  <div class="section-header">
+    <h2>What Can Be Done</h2>
+    <p>From adaptation to mitigation — the tools exist, the challenge is deployment</p>
+  </div>
+  <div class="context-grid">
+    <div class="context-card">
+      <h4>Clean Energy at Speed and Scale</h4>
+      <p>The cost of solar photovoltaic electricity has fallen by <span class="highlight">over 90% since 2010</span>; onshore wind by over 70%. Battery storage costs have declined by a similar magnitude. The technologies needed to decarbonize the global power system are not only available — they are now the cheapest source of new electricity in most of the world. The challenge is no longer invention but <span class="highlight">deployment</span>: building transmission infrastructure, reforming permitting processes, training workforces, and ensuring that the transition is just and equitable across communities that depend on fossil fuel economies.</p>
+    </div>
+    <div class="context-card">
+      <h4>Urban Cooling and Heat Adaptation</h4>
+      <p>Cities are heat amplifiers — the urban heat island effect can add 5–10°C to local temperatures. Solutions include <span class="highlight">cool roofs and pavements</span> that reflect rather than absorb solar radiation, urban tree canopy expansion, green corridors for natural ventilation, and community cooling centres for the most vulnerable. These are proven, cost-effective interventions. Singapore's extensive greening programme has reduced urban temperatures by as much as 4°C; Ahmedabad's heat action plan in India has saved an estimated 1,100 lives per year since its implementation in 2013.</p>
+    </div>
+    <div class="context-card">
+      <h4>Early Warning and Health Systems</h4>
+      <p>Heatwaves are predictable — meteorology can now forecast extreme heat events with <span class="highlight">5–10 days of lead time</span>. Coupling these forecasts with public health protocols (cooling centre activation, hospital surge capacity, outreach to elderly and isolated populations) dramatically reduces mortality. The <span class="highlight">Lancet Countdown</span> estimates that a global heat-health warning system covering the most vulnerable 50% of the world's population would cost approximately $1 per person per year — one of the highest-return investments in public health available today.</p>
+    </div>
+    <div class="context-card">
+      <h4>Adaptation Finance and Climate Justice</h4>
+      <p>The countries most exposed to extreme heat — in South Asia, Sub-Saharan Africa, and the Middle East — have contributed <span class="highlight">less than 5% of cumulative historical emissions</span>. The principle of climate justice demands that wealthy, high-emitting nations provide financial and technical support for adaptation in the most vulnerable regions. The UN Environment Programme estimates the annual adaptation finance gap at $194–366 billion. Closing this gap is not charity — it is an investment in global stability, reduced migration pressure, and the shared infrastructure of a liveable planet.</p>
     </div>
   </div>
 </div>
@@ -661,7 +654,7 @@ function renderEconChart(yearVal){
   const c=document.getElementById("econChart"),w=c.clientWidth||960,h=460;
   const{g,iw,ih}=mkSvg(c,w,h);
   // Wider right margin for dual-axis clarity
-  const rightM=130,iwE=w-M.left-rightM;
+  const rightM=160,iwE=w-M.left-rightM;
   g.attr("transform",`translate(${M.left},${M.top})`);
   const xS=d3.scaleLinear().domain([2000,2100]).range([0,iwE]),ySL=d3.scaleLinear().domain([0,d3.max(econData,d=>d.damagePct)*1.1]).range([ih,0]),ySR=d3.scaleLinear().domain([0,d3.max(econData,d=>d.cumulativeTrillions)*1.05]).range([ih,0]);
   g.append("g").attr("class","grid").call(d3.axisLeft(ySL).ticks(6).tickSize(-iwE).tickFormat(d=>`${d}%`));
@@ -687,7 +680,7 @@ function renderEconChart(yearVal){
 // ═══ STATE: master year + 4 independent years ═══
 let masterYear=2024;
 const years={temp:2024,co2:2024,pop:2024,econ:2024};
-const playing={master:false,temp:false,co2:false,pop:false,econ:false};
+const playing={temp:false,co2:false,pop:false,econ:false};
 const intervals={};
 
 function getKPIData(y){
@@ -719,12 +712,6 @@ function renderDataTable(y){
     <tr><td>Annual GDP Loss</td><td class="mono">${ep.damagePct.toFixed(1)}%</td><td style="color:${C.gold}">Quadratic damage function — accelerates with warming</td></tr>`;
 }
 
-function syncMasterUI(y){
-  document.getElementById("masterYear").textContent=y;
-  document.getElementById("masterSlider").value=y;
-  masterYear=y;
-}
-
 function renderDimension(dim,yearVal){
   years[dim]=yearVal;
   document.getElementById(dim+"Year").textContent=yearVal;
@@ -735,8 +722,8 @@ function renderDimension(dim,yearVal){
   if(dim==="econ")renderEconChart(yearVal);
 }
 
-function renderAllDimensions(y){
-  syncMasterUI(y);
+function updateAllCharts(y){
+  masterYear=y;
   renderKPIs(y);
   renderDataTable(y);
   ["temp","co2","pop","econ"].forEach(dim=>{years[dim]=y;renderDimension(dim,y);});
@@ -744,33 +731,25 @@ function renderAllDimensions(y){
 
 function togglePlay(dim){
   playing[dim]=!playing[dim];
-  const btnId=dim==="master"?"masterPlay":dim+"Play";
+  const btnId=dim+"Play";
   const btn=document.getElementById(btnId);
   btn.textContent=playing[dim]?"⏸ Pause":"▶ Play";
-  if(dim==="master")btn.classList.toggle("playing",playing[dim]);
-  else btn.classList.toggle("playing",playing[dim]);
+  btn.classList.toggle("playing",playing[dim]);
 
   if(playing[dim]){
     intervals[dim]=setInterval(()=>{
-      let yr=dim==="master"?masterYear:years[dim];
+      let yr=years[dim];
       yr=yr>=2100?2000:yr+1;
-      if(dim==="master"){renderAllDimensions(yr);}else{renderDimension(dim,yr);if(masterYear!==yr){syncMasterUI(yr);renderKPIs(yr);renderDataTable(yr);}}
+      renderDimension(dim,yr);
+      masterYear=yr; renderKPIs(yr); renderDataTable(yr);
     },180);
   }else{clearInterval(intervals[dim]);}
 }
 
 // ═══ INIT ═══
-// Master ticks
-const mt=document.getElementById("masterTicks");
-for(let y=2000;y<=2100;y+=10)mt.innerHTML+=`<span>${y}</span>`;
-
-// Master slider
-document.getElementById("masterSlider").addEventListener("input",function(){renderAllDimensions(parseInt(this.value));});
-document.getElementById("masterPlay").addEventListener("click",()=>togglePlay("master"));
-
 // Dimension sliders + play buttons
 ["temp","co2","pop","econ"].forEach(dim=>{
-  document.getElementById(dim+"Slider").addEventListener("input",function(){const y=parseInt(this.value);renderDimension(dim,y);syncMasterUI(y);renderKPIs(y);renderDataTable(y);});
+  document.getElementById(dim+"Slider").addEventListener("input",function(){const y=parseInt(this.value);renderDimension(dim,y);masterYear=y;renderKPIs(y);renderDataTable(y);});
   document.getElementById(dim+"Play").addEventListener("click",()=>togglePlay(dim));
 });
 
@@ -779,13 +758,12 @@ window.addEventListener("resize",()=>{["temp","co2","pop","econ"].forEach(dim=>r
 
 // Keyboard
 document.addEventListener("keydown",function(e){
-  if(e.key==="ArrowRight"){renderAllDimensions(Math.min(2100,masterYear+1));}
-  if(e.key==="ArrowLeft"){renderAllDimensions(Math.max(2000,masterYear-1));}
-  if(e.key===" "&&e.target===document.body){e.preventDefault();togglePlay("master");}
+  if(e.key==="ArrowRight"){updateAllCharts(Math.min(2100,masterYear+1));}
+  if(e.key==="ArrowLeft"){updateAllCharts(Math.max(2000,masterYear-1));}
 });
 
 // Initial render
-renderAllDimensions(2024);
+updateAllCharts(2024);
 // Stop all initial intervals
 Object.keys(playing).forEach(k=>{playing[k]=false;});
 </script>
